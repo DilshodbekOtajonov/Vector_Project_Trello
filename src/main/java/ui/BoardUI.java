@@ -19,7 +19,7 @@ public class BoardUI {
 
         BoardUI boardUI = new BoardUI();
         BaseUtils.println("Add project -> 1");
-        BaseUtils.println("Edit existing projects -> 2");
+        BaseUtils.println("show my projects -> 2");
         BaseUtils.println("Show my tasks -> 3");
         BaseUtils.println("logout -> 4");
         BaseUtils.println("Quit -> q");
@@ -27,7 +27,7 @@ public class BoardUI {
         switch (choice) {
 
             case "1" -> boardUI.addProject();
-            case "2" -> boardUI.editProject();
+            case "2" -> boardUI.showMyProjects();
             case "3" -> boardUI.showMyTasks();
 
             case "q" -> {
@@ -45,7 +45,7 @@ public class BoardUI {
 
     }
 
-    private void editProject() {
+    private void showMyProjects() {
 
     }
 
