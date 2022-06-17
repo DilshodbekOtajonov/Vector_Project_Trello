@@ -45,5 +45,10 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.36</version>
         </dependency>
+        <dependency>
+            <groupId>uz.jl</groupId>
+            <artifactId>my-utils</artifactId>
+            <version>5.0</version>
+        </dependency>
     </dependencies>
 </project>
