@@ -64,7 +64,6 @@ public class HibernateConfig {
     public static void shutdown() {
         if (registry != null) {
             StandardServiceRegistryBuilder.destroy(registry);
-
         }
     }
 }
