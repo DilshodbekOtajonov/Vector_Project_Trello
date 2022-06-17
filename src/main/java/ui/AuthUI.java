@@ -1,13 +1,15 @@
-import property.Property;
+package ui;
 
 /**
  * @author "Otajonov Dilshodbek
- * @since 6/16/22 5:16 PM (Thursday)
+ * @since 6/16/22 5:29 PM (Thursday)
  * VectorGroupProject/IntelliJ IDEA
  */
-public class Application {
+public class AuthUI {
 
     public static void main(String[] args) {
+
+
 
     }
 }
