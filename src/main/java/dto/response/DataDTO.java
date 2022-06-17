@@ -20,10 +20,10 @@ public class DataDTO<T> {
         this.errorDTO = errorDTO;
         this.success = false;
     }
+
     public DataDTO(T body) {
         this.body = body;
         this.success = true;
     }
-
 
 }
