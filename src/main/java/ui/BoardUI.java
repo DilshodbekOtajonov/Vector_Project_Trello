@@ -1,12 +1,18 @@
 package ui;
 
 import config.HibernateConfig;
+import dto.auth.ProjectDTO;
 import dto.auth.Session;
+import dto.auth.UserDTO;
+import dto.response.DataDTO;
+import dto.response.ResponseEntity;
 import mappers.ApplicationContextHolder;
-import services.UserService;
-import uz.jl.BaseUtils;
-import uz.jl.Colors;
+import pdp.uz.baseUtil.BaseUtils;
+import pdp.uz.baseUtil.Colors;
+import services.ProjectService;
+import services.auth.AuthService;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -16,7 +22,8 @@ import java.util.Objects;
  */
 public class BoardUI {
 
-    UserService userService=ApplicationContextHolder.getBean(UserService.class);
+    ProjectService projectService=ApplicationContextHolder.getBean(ProjectService.class);
+
     public static void main(String[] args) {
         if (Objects.isNull(Session.sessionUser))
             return;
@@ -33,7 +40,7 @@ public class BoardUI {
             case "1" -> boardUI.addProject();
             case "2" -> boardUI.showMyProjects();
             case "3" -> boardUI.showMyTasks();
-            case "4" -> Session.sessionUser = null;
+
             case "q" -> {
                 BaseUtils.println("Bye");
                 HibernateConfig.shutdown();
@@ -41,6 +48,7 @@ public class BoardUI {
             }
             default -> BaseUtils.println("Wrong Choice", Colors.RED);
         }
+
     }
 
     private void showMyTasks() {
@@ -49,10 +57,25 @@ public class BoardUI {
     }
 
     private void showMyProjects() {
-        userService.getProjectList(Session.sessionUser.getId());
+
     }
 
     private void addProject() {
+        ProjectDTO projectDTO = ProjectDTO.builder()
+                .title(BaseUtils.readText("title ? "))
+                .description(BaseUtils.readText("description ? "))
+                .docPath(BaseUtils.readText("doc_path ? "))
+                .createdBy(Long.valueOf(BaseUtils.readText("createdBy ? ")))
+                .build();
+        System.out.println("projectDTO = " + projectDTO);
+
+        ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);
+        print_response(response);
+    }
+
+    public static void print_response(ResponseEntity response) {
+        String color = response.getStatus() != 200 ? Colors.RED : Colors.GREEN;
+        BaseUtils.println(BaseUtils.gson.toJson(response), color);
 
     }
 }

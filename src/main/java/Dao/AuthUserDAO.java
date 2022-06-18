@@ -3,21 +3,12 @@ package Dao;
 import config.HibernateConfig;
 import dto.auth.AuthLoginDTO;
 import exceptions.DaoException;
-import jakarta.persistence.ParameterMode;
-import jakarta.persistence.StoredProcedureParameter;
 import org.hibernate.Session;
-import org.hibernate.jdbc.ReturningWork;
-import org.hibernate.procedure.ProcedureCall;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.Query;
 
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 
 /**
  * @author "Otajonov Dilshodbek
@@ -47,15 +38,15 @@ public class AuthUserDAO {
             try {
                 result = callableStatement.getString(1);
             } catch (SQLException e) {
-                System.out.println("first "+e.getMessage());
+                System.out.println("first " + e.getMessage());
                 throw new DaoException(e.getMessage());
             }
 
             return result;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new DaoException(e.getCause().getLocalizedMessage());
-        }finally {
+        } finally {
             currentSession.getTransaction().commit();
             currentSession.close();
         }
