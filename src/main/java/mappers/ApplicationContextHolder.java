@@ -1,6 +1,8 @@
 package mappers;
 
 import Dao.AuthUserDAO;
+import Dao.ProjectDAO;
+import services.UserService;
 import services.auth.AuthService;
 
 /**
@@ -14,6 +16,8 @@ public class ApplicationContextHolder {
         return switch (clazz.getSimpleName()) {
             case "AuthUserDAO" -> (T) AuthUserDAO.getInstance();
             case "AuthService" -> (T) AuthService.getInstance();
+            case "UserService" -> (T) UserService.getInstance();
+            case "ProjectDAO" -> (T) ProjectDAO.getInstance();
             default -> throw new RuntimeException("Bean not found");
         };
     }
@@ -22,6 +26,8 @@ public class ApplicationContextHolder {
         return switch (beanName) {
             case "AuthUserDAO" -> AuthUserDAO.getInstance();
             case "AuthService" -> AuthService.getInstance();
+            case "UserService" -> UserService.getInstance();
+            case "ProjectDAO" -> ProjectDAO.getInstance();
             default -> throw new RuntimeException("Bean not found");
         };
     }

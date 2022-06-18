@@ -2,6 +2,8 @@ package ui;
 
 import config.HibernateConfig;
 import dto.auth.Session;
+import mappers.ApplicationContextHolder;
+import services.UserService;
 import uz.jl.BaseUtils;
 import uz.jl.Colors;
 
@@ -13,6 +15,8 @@ import java.util.Objects;
  * VectorGroupProject/IntelliJ IDEA
  */
 public class BoardUI {
+
+    UserService userService=ApplicationContextHolder.getBean(UserService.class);
     public static void main(String[] args) {
         if (Objects.isNull(Session.sessionUser))
             return;
@@ -29,7 +33,7 @@ public class BoardUI {
             case "1" -> boardUI.addProject();
             case "2" -> boardUI.showMyProjects();
             case "3" -> boardUI.showMyTasks();
-
+            case "4" -> Session.sessionUser = null;
             case "q" -> {
                 BaseUtils.println("Bye");
                 HibernateConfig.shutdown();
@@ -37,7 +41,6 @@ public class BoardUI {
             }
             default -> BaseUtils.println("Wrong Choice", Colors.RED);
         }
-
     }
 
     private void showMyTasks() {
@@ -46,7 +49,7 @@ public class BoardUI {
     }
 
     private void showMyProjects() {
-
+        userService.getProjectList(Session.sessionUser.getId());
     }
 
     private void addProject() {
