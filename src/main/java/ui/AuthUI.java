@@ -25,7 +25,6 @@ public final class AuthUI {
             BaseUtils.println("Quit -> q");
 
             String choice = BaseUtils.readText("?:");
-
             switch (choice) {
                 case "1" -> authUI.login();
                 case "2" -> authUI.register();
