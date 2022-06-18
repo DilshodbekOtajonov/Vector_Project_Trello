@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Builder;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -24,7 +25,7 @@ public final class UserEntity extends Auditable {
     private UserRole role;
     private Language language;
 @Builder(builderMethodName = "childBuilder")
-    public UserEntity(Long id, LocalDateTime createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, int deleted, String username, String password, UserStatus status, UserRole role, Language language) {
+    public UserEntity(Long id, Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, int deleted, String username, String password, UserStatus status, UserRole role, Language language) {
         super(id, createdAt, updatedAt, createdBy, updatedBy, deleted);
         this.username = username;
         this.password = password;

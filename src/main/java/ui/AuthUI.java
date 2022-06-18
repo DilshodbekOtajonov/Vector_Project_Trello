@@ -2,8 +2,8 @@ package ui;
 
 import config.HibernateConfig;
 import dto.auth.Session;
-import uz.jl.BaseUtils;
-import uz.jl.Colors;
+import pdp.uz.baseUtil.BaseUtils;
+import pdp.uz.baseUtil.Colors;
 
 import java.util.Objects;
 
