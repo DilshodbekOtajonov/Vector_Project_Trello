@@ -1,18 +1,15 @@
 package ui;
 
-
+import Dao.AuthUserDAO;
 import config.HibernateConfig;
 
-import dto.auth.AuthLoginDTO;
-import dto.auth.Session;
-import dto.auth.UserDTO;
+import dto.auth.*;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import mappers.ApplicationContextHolder;
-import pdp.uz.baseUtil.BaseUtils;
-import pdp.uz.baseUtil.Colors;
 import services.auth.AuthService;
-
+import uz.jl.BaseUtils;
+import uz.jl.Colors;
 
 import java.util.Objects;
 
@@ -54,6 +51,30 @@ public final class AuthUI {
 
     private void register() {
 
+        AuthCreateDTO authCreateDTO = AuthCreateDTO.builder()
+                .username(BaseUtils.readText("username ?"))
+                .password(BaseUtils.readText("password ? "))
+                .employeeCreateDTO(EmployeeCreateDTO.builder()
+                        .fullName(BaseUtils.readText("fullName ? "))
+                        .phoneNumber(BaseUtils.readText("phoneNumber ? "))
+                        .email(BaseUtils.readText("email ? "))
+                        .build())
+                .build();
+
+
+        String option;
+        System.out.println("Choose language(default-RU): ");
+        option=BaseUtils.readText("\n1.EN\n2.RU\n3.UZ\n?: ");
+
+
+        switch (option){
+            case "1" -> authCreateDTO.setLanguage("EN");
+            case "2" -> authCreateDTO.setLanguage("UZ");
+            default -> authCreateDTO.setLanguage("RU");
+        }
+
+        ResponseEntity<DataDTO<Long>> response = authService.register(authCreateDTO);
+        print_response(response);
     }
 
     private void login() {

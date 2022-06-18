@@ -1,6 +1,7 @@
 package services.auth;
 
 import Dao.AuthUserDAO;
+import dto.auth.AuthCreateDTO;
 import dto.auth.AuthLoginDTO;
 import dto.auth.Session;
 import dto.auth.UserDTO;
@@ -9,7 +10,7 @@ import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
-import pdp.uz.baseUtil.BaseUtils;
+import uz.jl.BaseUtils;
 
 import java.util.Objects;
 
@@ -42,9 +43,25 @@ public class AuthService {
 
     }
 
+
     public static AuthService getInstance() {
         if (Objects.isNull(authService))
             authService = new AuthService();
         return authService;
+    }
+
+    public ResponseEntity<DataDTO<Long>>register(AuthCreateDTO authCreateDTO) {
+        Long register = null;
+        try {
+            register = authUserDAO.register(authCreateDTO);
+            String authCreateJson = BaseUtils.gson.toJson(authCreateDTO);
+            return new ResponseEntity<>(new DataDTO<>(register), 200);
+
+        } catch (DaoException e) {
+            return new ResponseEntity<>(
+                    new DataDTO<>(AppErrorDTO.builder().friendlyMessage(e.getMessage()).build()), 500);
+        }
+
+
     }
 }

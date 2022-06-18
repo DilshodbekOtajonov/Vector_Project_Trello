@@ -1,14 +1,25 @@
 package Dao;
 
 import config.HibernateConfig;
+import dto.auth.AuthCreateDTO;
 import dto.auth.AuthLoginDTO;
 import exceptions.DaoException;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureParameter;
 import org.hibernate.Session;
+import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.procedure.ProcedureCall;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
+import uz.jl.BaseUtils;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 
 /**
  * @author "Otajonov Dilshodbek
@@ -57,6 +68,33 @@ public class AuthUserDAO {
         if (Objects.isNull(authUserDAO))
             authUserDAO = new AuthUserDAO();
         return authUserDAO;
+    }
+
+    public Long register(AuthCreateDTO authCreateDTO) throws DaoException {
+        Long result;
+        Session currentSession = HibernateConfig.getSessionFactory().getCurrentSession();
+        currentSession.beginTransaction();
+        try {
+            CallableStatement callableStatement = currentSession.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall("{? = call hr.user_create(?)}");
+                function.registerOutParameter(1, Types.BIGINT);
+                function.setString(2, BaseUtils.gson.toJson(authCreateDTO));
+                function.execute();
+                return function;
+            });
+            try {
+                result=callableStatement.getLong(1);
+            } catch (SQLException e) {
+                throw new DaoException(e.getMessage());
+            }
+            return result;
+        }catch (Exception e){
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        }finally {
+            currentSession.getTransaction().commit();
+            currentSession.close();
+        }
+
     }
 }
 

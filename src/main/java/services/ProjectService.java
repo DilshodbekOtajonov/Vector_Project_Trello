@@ -7,7 +7,6 @@ import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
-import pdp.uz.baseUtil.BaseUtils;
 
 import java.util.Objects;
 
