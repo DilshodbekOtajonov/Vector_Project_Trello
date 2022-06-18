@@ -1,5 +1,7 @@
 package domains.project;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 /**
@@ -13,6 +15,8 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@Entity
+@Table
 public class ProjectColumnEntity {
     private Long id;
     private String name;

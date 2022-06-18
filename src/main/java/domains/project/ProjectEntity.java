@@ -2,10 +2,12 @@ package domains.project;
 
 import domains.Auditable;
 import enums.ProjectStatus;
+import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.sql.Timestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Table(name = "project")
 public class ProjectEntity extends Auditable {
     private String title;
     private String description;
@@ -26,7 +29,7 @@ public class ProjectEntity extends Auditable {
     private List<ProjectColumnEntity> projectColumns;
 
     @Builder(builderMethodName = "childBuilder")
-    public ProjectEntity(Long id, LocalDateTime createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, int deleted, String title, String description, String docPath, ProjectStatus status, List<ProjectColumnEntity> projectColumns) {
+    public ProjectEntity(Long id, Timestamp createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, int deleted, String title, String description, String docPath, ProjectStatus status, List<ProjectColumnEntity> projectColumns) {
         super(id, createdAt, updatedAt, createdBy, updatedBy, deleted);
         this.title = title;
         this.description = description;

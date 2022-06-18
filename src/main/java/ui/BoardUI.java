@@ -1,10 +1,18 @@
 package ui;
 
 import config.HibernateConfig;
+import dto.auth.ProjectDTO;
 import dto.auth.Session;
-import uz.jl.BaseUtils;
-import uz.jl.Colors;
+import dto.auth.UserDTO;
+import dto.response.DataDTO;
+import dto.response.ResponseEntity;
+import mappers.ApplicationContextHolder;
+import pdp.uz.baseUtil.BaseUtils;
+import pdp.uz.baseUtil.Colors;
+import services.ProjectService;
+import services.auth.AuthService;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -13,6 +21,9 @@ import java.util.Objects;
  * VectorGroupProject/IntelliJ IDEA
  */
 public class BoardUI {
+
+    ProjectService projectService=ApplicationContextHolder.getBean(ProjectService.class);
+
     public static void main(String[] args) {
         if (Objects.isNull(Session.sessionUser))
             return;
@@ -50,6 +61,21 @@ public class BoardUI {
     }
 
     private void addProject() {
+        ProjectDTO projectDTO = ProjectDTO.builder()
+                .title(BaseUtils.readText("title ? "))
+                .description(BaseUtils.readText("description ? "))
+                .docPath(BaseUtils.readText("doc_path ? "))
+                .createdBy(Long.valueOf(BaseUtils.readText("createdBy ? ")))
+                .build();
+        System.out.println("projectDTO = " + projectDTO);
+
+        ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);
+        print_response(response);
+    }
+
+    public static void print_response(ResponseEntity response) {
+        String color = response.getStatus() != 200 ? Colors.RED : Colors.GREEN;
+        BaseUtils.println(BaseUtils.gson.toJson(response), color);
 
     }
 }
