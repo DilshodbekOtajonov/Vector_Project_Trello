@@ -31,6 +31,8 @@ public class HibernateConfig {
                 settings.put(Environment.URL, Property.getProperty("jdbc.database.url"));
                 settings.put(Environment.USER, Property.getProperty("jdbc.database.username"));
                 settings.put(Environment.PASS, Property.getProperty("jdbc.database.password"));
+                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, Property.getProperty("context.class"));
+                settings.put(Environment.DIALECT, Property.getProperty("dialect"));
                 settings.put(Environment.HBM2DDL_AUTO, "update");
                 settings.put(Environment.SHOW_SQL, true);
 

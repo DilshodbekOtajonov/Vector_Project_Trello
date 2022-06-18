@@ -1,11 +1,20 @@
 package ui;
 
+import Dao.AuthUserDAO;
 import config.HibernateConfig;
+
+import dto.auth.AuthLoginDTO;
 import dto.auth.Session;
+import dto.auth.UserDTO;
+import dto.response.DataDTO;
+import dto.response.ResponseEntity;
+import mappers.ApplicationContextHolder;
+import services.auth.AuthService;
 import uz.jl.BaseUtils;
 import uz.jl.Colors;
 
 import java.util.Objects;
+
 
 /**
  * @author "Otajonov Dilshodbek
@@ -14,7 +23,7 @@ import java.util.Objects;
  */
 public final class AuthUI {
 
-
+    AuthService authService = ApplicationContextHolder.getBean(AuthService.class);
     public static void main(String[] args) {
 
         AuthUI authUI = new AuthUI();
@@ -47,6 +56,17 @@ public final class AuthUI {
     }
 
     private void login() {
+        AuthLoginDTO authLoginDTO = AuthLoginDTO.builder()
+                .username(BaseUtils.readText("username ? "))
+                .password(BaseUtils.readText("password ? "))
+                .build();
+
+        ResponseEntity<DataDTO<UserDTO>> response = authService.login(authLoginDTO);
+        print_response(response);
+    }
+    public static void print_response(ResponseEntity response) {
+        String color = response.getStatus() != 200 ? Colors.RED : Colors.GREEN;
+        BaseUtils.println(BaseUtils.gson.toJson(response), color);
 
     }
 }

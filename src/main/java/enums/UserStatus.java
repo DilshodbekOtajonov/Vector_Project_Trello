@@ -6,7 +6,7 @@ package enums;
  * VectorGroupProject/IntelliJ IDEA
  */
 public enum UserStatus {
-    IN_ACTIVE,
+    INACTIVE,
     ACTIVE,
 
 }

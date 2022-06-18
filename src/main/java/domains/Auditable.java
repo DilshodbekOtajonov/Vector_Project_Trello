@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Auditable {
     protected Long id;
-    protected LocalDateTime createdAt = LocalDateTime.now();
+    protected Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
     protected LocalDateTime updatedAt;
     protected Long createdBy;
     protected Long updatedBy;
