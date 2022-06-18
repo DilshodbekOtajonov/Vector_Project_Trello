@@ -1,4 +1,4 @@
-package dto;
+package dto.project;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -13,10 +13,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "project_column")
 public class ProjectColumnDTO {
-    @Id
     private Long id;
     private Long project_id;
     private String name;

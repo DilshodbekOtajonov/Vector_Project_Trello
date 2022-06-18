@@ -2,14 +2,13 @@ package Dao;
 
 import config.HibernateConfig;
 import domains.project.ProjectEntity;
-import dto.ProjectDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
 
+import java.io.FilterOutputStream;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -45,6 +44,7 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
                 function.execute();
                 return function;
             });
+
             try {
                 result = callableStatement.getString(1);
             } catch (SQLException e) {
@@ -61,6 +61,39 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
             session.close();
         }
 
+
+    }
+
+    public String getTaskList(Long id) throws DaoException{
+        String result;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{ ? = call task.task_list(?)}"
+                );
+                function.registerOutParameter(1, Types.VARCHAR);
+                function.setLong(2, id);
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getString(1);
+            } catch (SQLException e) {
+
+                throw new DaoException(e.getMessage());
+            }
+            System.out.println(result);
+            return result;
+
+        } catch (Exception e) {
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
 
     }
 }
