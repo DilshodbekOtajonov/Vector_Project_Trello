@@ -1,4 +1,4 @@
-package dto;
+package dto.comment;
 
 import com.google.gson.annotations.SerializedName;
 import domains.task.TaskEntity;

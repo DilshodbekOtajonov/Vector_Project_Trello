@@ -27,7 +27,6 @@ public class ProjectDTO {
     private String description;
     @SerializedName("doc_path")
     private String docPath;
-
     private ProjectStatus status;
     @SerializedName("created_by")
     private Long createdBy;
