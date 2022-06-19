@@ -1,5 +1,6 @@
 package dto.auth;
 
+import dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

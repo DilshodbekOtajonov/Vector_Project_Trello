@@ -65,7 +65,7 @@ public class UserService {
             ArrayList<TaskDTO> result = BaseUtils.gson.fromJson(taskList, type);
             if (result.isEmpty())
                 return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
-                        .friendlyMessage("You do not have any projects")
+                        .friendlyMessage("You do not have any taska")
                         .build()), 404);
 
             return new ResponseEntity<>(new DataDTO<>(result), 200);

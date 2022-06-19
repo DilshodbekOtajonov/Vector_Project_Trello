@@ -1,4 +1,4 @@
-package dto.auth;
+package dto;
 
 import lombok.*;
 

@@ -4,7 +4,7 @@ import Dao.AuthUserDAO;
 import dto.auth.AuthCreateDTO;
 import dto.auth.AuthLoginDTO;
 import dto.auth.Session;
-import dto.auth.UserDTO;
+import dto.UserDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;

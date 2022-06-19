@@ -1,4 +1,4 @@
-package dto.auth;
+package dto;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.ToString;

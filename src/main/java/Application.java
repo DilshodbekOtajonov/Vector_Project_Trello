@@ -1,4 +1,5 @@
 import property.Property;
+import ui.AuthUI;
 
 /**
  * @author "Otajonov Dilshodbek
@@ -9,6 +10,6 @@ public class Application {
 
     public static void main(String[] args) {
 
-
+        AuthUI.main(args);
     }
 }

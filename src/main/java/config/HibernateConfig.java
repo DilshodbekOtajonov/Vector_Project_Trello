@@ -53,6 +53,7 @@ public class HibernateConfig {
                 MetadataSources sources = new MetadataSources(registry);
                 Metadata metadata = sources.getMetadataBuilder().build();
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
+
             } catch (Exception e) {
                 if (registry != null) {
                     StandardServiceRegistryBuilder.destroy(registry);

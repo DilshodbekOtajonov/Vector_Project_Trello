@@ -26,16 +26,17 @@ public class BoardUI {
     UserService userService = ApplicationContextHolder.getBean(UserService.class);
     ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
     static BoardUI boardUI = new BoardUI();
+
     public static void main(String[] args) {
         if (Objects.isNull(Session.sessionUser))
             return;
 
-            BaseUtils.println("Add project -> 1");
-            BaseUtils.println("Add Task -> 2");
-            BaseUtils.println("show my projects -> 3");
-            BaseUtils.println("Show my tasks -> 4");
-            BaseUtils.println("logout -> 5");
-            BaseUtils.println("Quit -> q");
+        BaseUtils.println("Add project -> 1");
+        BaseUtils.println("Add Task -> 2");
+        BaseUtils.println("show my projects -> 3");
+        BaseUtils.println("Show my tasks -> 4");
+        BaseUtils.println("logout -> 5");
+        BaseUtils.println("Quit -> q");
         String choice = BaseUtils.readText("?:");
         switch (choice) {
 
@@ -51,6 +52,8 @@ public class BoardUI {
             }
             default -> BaseUtils.println("Wrong Choice", Colors.RED);
         }
+
+        main(args);
     }
 
     private void addTask() {
@@ -61,20 +64,25 @@ public class BoardUI {
         ResponseEntity<DataDTO<List<TaskDTO>>> response = userService.getTaskList(Session.sessionUser.getId());
         print_response(response);
 
-        BaseUtils.println("\n\n"+"Edit task -> 1");
-        BaseUtils.println("go back -> any key");
-        String choice = BaseUtils.readText("?:");
-        switch (choice) {
+        if (response.getStatus() == 200) {
+            BaseUtils.println("\n\n" + "Edit task -> 1");
+            BaseUtils.println("go back -> any key");
+            String choice = BaseUtils.readText("?:");
+            switch (choice) {
 
-            case "1" -> boardUI.editTask();
-
-            default -> BaseUtils.println("Main page");
+                case "1" -> boardUI.editTask();
+                case "2" -> boardUI.showTaskDetails();
+                default -> BaseUtils.println("Main page");
+            }
         }
     }
 
+    private void showTaskDetails() {
+
+
+    }
+
     private void editTask() {
-
-
 
 
     }
@@ -82,6 +90,7 @@ public class BoardUI {
     private void showMyProjects() {
         ResponseEntity<DataDTO<List<ProjectCreateDTO>>> response = userService.getProjectList(Session.sessionUser.getId());
         print_response(response);
+
 
     }
 
@@ -93,7 +102,7 @@ public class BoardUI {
                 .createdBy(Session.sessionUser.getId())
                 .build();
         System.out.println(Session.sessionUser.getId());
-        System.out.println("projectDTO "+projectDTO);
+        System.out.println("projectDTO " + projectDTO);
 
         ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);
         print_response(response);

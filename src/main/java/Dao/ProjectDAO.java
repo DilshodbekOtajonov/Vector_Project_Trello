@@ -112,7 +112,6 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
 
                 throw new DaoException(e.getMessage());
             }
-            System.out.println(result);
             return result;
 
         } catch (Exception e) {
