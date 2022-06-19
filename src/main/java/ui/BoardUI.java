@@ -1,18 +1,15 @@
 package ui;
 
 import config.HibernateConfig;
-import dto.auth.ProjectDTO;
+import dto.ProjectDTO;
 import dto.auth.Session;
-import dto.auth.UserDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import mappers.ApplicationContextHolder;
 import pdp.uz.baseUtil.BaseUtils;
 import pdp.uz.baseUtil.Colors;
 import services.ProjectService;
-import services.auth.AuthService;
 
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -22,24 +19,28 @@ import java.util.Objects;
  */
 public class BoardUI {
 
-    ProjectService projectService=ApplicationContextHolder.getBean(ProjectService.class);
+    ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
 
     public static void main(String[] args) {
         if (Objects.isNull(Session.sessionUser))
             return;
 
         BoardUI boardUI = new BoardUI();
-        BaseUtils.println("Add project -> 1");
-        BaseUtils.println("show my projects -> 2");
-        BaseUtils.println("Show my tasks -> 3");
-        BaseUtils.println("logout -> 4");
+        BaseUtils.println("AddProject -> 1");
+        BaseUtils.println("addTask -> 2");
+        BaseUtils.println("show my projects -> 3");
+        BaseUtils.println("Show my tasks -> 4");
+        BaseUtils.println("logout -> 5");
         BaseUtils.println("Quit -> q");
         String choice = BaseUtils.readText("?:");
         switch (choice) {
 
             case "1" -> boardUI.addProject();
-            case "2" -> boardUI.showMyProjects();
-            case "3" -> boardUI.showMyTasks();
+            case "2" -> boardUI.addTask();
+            case "3" -> boardUI.showMyProjects();
+            case "4" -> boardUI.showMyTasks();
+            case "5" -> boardUI.logout();
+
 
             case "q" -> {
                 BaseUtils.println("Bye");
@@ -48,6 +49,15 @@ public class BoardUI {
             }
             default -> BaseUtils.println("Wrong Choice", Colors.RED);
         }
+
+    }
+
+    private void logout() {
+
+    }
+
+    private void addTask() {
+
 
     }
 
@@ -67,6 +77,7 @@ public class BoardUI {
                 .docPath(BaseUtils.readText("doc_path ? "))
                 .createdBy(Long.valueOf(BaseUtils.readText("createdBy ? ")))
                 .build();
+
         System.out.println("projectDTO = " + projectDTO);
 
         ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);

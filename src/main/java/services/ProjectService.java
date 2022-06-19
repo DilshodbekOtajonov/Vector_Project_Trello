@@ -1,13 +1,12 @@
 package services;
 
 import Dao.ProjectDAO;
-import dto.auth.ProjectDTO;
+import dto.ProjectDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
-import pdp.uz.baseUtil.BaseUtils;
 
 import java.util.Objects;
 

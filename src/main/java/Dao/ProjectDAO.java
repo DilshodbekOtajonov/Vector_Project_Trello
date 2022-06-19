@@ -1,9 +1,8 @@
 package Dao;
 
-import com.google.gson.Gson;
 import config.HibernateConfig;
 import domains.project.ProjectEntity;
-import dto.auth.ProjectDTO;
+import dto.ProjectDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
 import pdp.uz.baseUtil.BaseUtils;
@@ -11,7 +10,6 @@ import pdp.uz.baseUtil.BaseUtils;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.List;
 import java.util.Objects;
 
 /**
