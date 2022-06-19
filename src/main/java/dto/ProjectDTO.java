@@ -1,7 +1,9 @@
 package dto;
 
 import com.google.gson.annotations.SerializedName;
+import enums.ProjectStatus;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.*;
@@ -15,20 +17,21 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @ToString
-public class TaskDTO {
+public class ProjectDTO {
+    @Id
     private Long id;
+    @SerializedName("title")
     private String title;
+    @SerializedName("description")
     private String description;
-    private String level;
-    private String priority;
-    @SerializedName("project_column_id")
-    private Long projectColumnId;
-    private Long order;
+    @SerializedName("doc_path")
+    private String docPath;
+
+    private ProjectStatus status;
     @SerializedName("created_by")
     private Long createdBy;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_id")
-    private List<CommentDTO> commentDTOS=new ArrayList<>();
-
+    @JoinColumn(name = "project_id")
+    private List<ProjectColumnDTO> projectColumns = new ArrayList<>();
 }

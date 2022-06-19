@@ -9,7 +9,7 @@ import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
-import uz.jl.BaseUtils;
+import pdp.uz.baseUtil.BaseUtils;
 
 import java.util.Objects;
 
@@ -30,7 +30,7 @@ public class AuthService {
             login = authUserDAO.login(authLoginDTO);
             UserDTO userDTO = BaseUtils.gson.fromJson(login, UserDTO.class);
             Session.setSessionUser(userDTO);
-            return new ResponseEntity<>(new DataDTO<>(userDTO),200);
+            return new ResponseEntity<>(new DataDTO<>(userDTO), 200);
         } catch (DaoException e) {
             return new ResponseEntity<>(
                     new DataDTO<>(
@@ -41,10 +41,6 @@ public class AuthService {
         }
 
     }
-
-
-
-
 
     public static AuthService getInstance() {
         if (Objects.isNull(authService))

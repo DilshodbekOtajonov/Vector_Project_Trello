@@ -1,6 +1,6 @@
 package ui;
 
-import Dao.AuthUserDAO;
+
 import config.HibernateConfig;
 
 import dto.auth.AuthLoginDTO;
@@ -9,9 +9,10 @@ import dto.auth.UserDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import mappers.ApplicationContextHolder;
+import pdp.uz.baseUtil.BaseUtils;
+import pdp.uz.baseUtil.Colors;
 import services.auth.AuthService;
-import uz.jl.BaseUtils;
-import uz.jl.Colors;
+
 
 import java.util.Objects;
 

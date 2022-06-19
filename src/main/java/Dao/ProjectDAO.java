@@ -2,10 +2,11 @@ package Dao;
 
 import config.HibernateConfig;
 import domains.project.ProjectEntity;
+import dto.ProjectDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
+import pdp.uz.baseUtil.BaseUtils;
 
-import java.io.FilterOutputStream;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -44,7 +45,6 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
                 function.execute();
                 return function;
             });
-
             try {
                 result = callableStatement.getString(1);
             } catch (SQLException e) {
@@ -64,35 +64,30 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
 
     }
 
-    public String getTaskList(Long id) throws DaoException{
-        String result;
+    public Long addProject(ProjectDTO projectDTO) throws DaoException {
+        Long result = null;
         Session session = HibernateConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-
         try {
             CallableStatement callableStatement = session.doReturningWork(connection -> {
                 CallableStatement function = connection.prepareCall(
-                        "{ ? = call task.task_list(?)}"
-                );
-                function.registerOutParameter(1, Types.VARCHAR);
-                function.setLong(2, id);
+                        "{? = call project.project_create(?)}");
+                function.registerOutParameter(1, Types.BIGINT);
+                function.setString(2, BaseUtils.gson.toJson(projectDTO));
                 function.execute();
                 return function;
             });
             try {
-                result = callableStatement.getString(1);
+                result = callableStatement.getLong(1);
             } catch (SQLException e) {
-
                 throw new DaoException(e.getMessage());
             }
             return result;
-
         } catch (Exception e) {
             throw new DaoException(e.getCause().getLocalizedMessage());
         } finally {
             session.getTransaction().commit();
             session.close();
         }
-
     }
 }

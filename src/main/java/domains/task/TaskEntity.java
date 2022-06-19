@@ -1,12 +1,11 @@
 package domains.task;
 
 
+import com.google.gson.annotations.SerializedName;
 import domains.Auditable;
 import domains.project.ProjectColumnEntity;
 import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -18,9 +17,11 @@ public class TaskEntity extends Auditable {
 
     private String title;
     private String description;
+    @SerializedName("level")
     private String taskLevel;
     private String priority;
 
+    @SerializedName("project_column_id")
     private ProjectColumnEntity projectColumnId;
     private Long order;
 
