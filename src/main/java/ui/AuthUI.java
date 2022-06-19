@@ -1,6 +1,5 @@
 package ui;
 
-import Dao.AuthUserDAO;
 import config.HibernateConfig;
 
 import dto.auth.*;

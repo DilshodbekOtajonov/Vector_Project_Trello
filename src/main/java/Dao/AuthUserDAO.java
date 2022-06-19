@@ -70,7 +70,7 @@ public class AuthUserDAO {
         return authUserDAO;
     }
 
-    public Long register(AuthCreateDTO authCreateDTO) throws DaoException {
+    public Long register(String authCreateDTO) throws DaoException {
         Long result;
         Session currentSession = HibernateConfig.getSessionFactory().getCurrentSession();
         currentSession.beginTransaction();
@@ -78,7 +78,7 @@ public class AuthUserDAO {
             CallableStatement callableStatement = currentSession.doReturningWork(connection -> {
                 CallableStatement function = connection.prepareCall("{? = call hr.user_create(?)}");
                 function.registerOutParameter(1, Types.BIGINT);
-                function.setString(2, BaseUtils.gson.toJson(authCreateDTO));
+                function.setString(2, authCreateDTO);
                 function.execute();
                 return function;
             });

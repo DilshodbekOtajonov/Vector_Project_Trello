@@ -53,8 +53,10 @@ public class AuthService {
     public ResponseEntity<DataDTO<Long>>register(AuthCreateDTO authCreateDTO) {
         Long register = null;
         try {
-            register = authUserDAO.register(authCreateDTO);
             String authCreateJson = BaseUtils.gson.toJson(authCreateDTO);
+            register = authUserDAO.register(authCreateJson);
+            UserDTO build = UserDTO.builder().id(register).username(authCreateDTO.getUsername()).build();
+            Session.setSessionUser(build);
             return new ResponseEntity<>(new DataDTO<>(register), 200);
 
         } catch (DaoException e) {
