@@ -72,10 +72,10 @@ public class BoardUI {
                 .title(BaseUtils.readText("title ? "))
                 .description(BaseUtils.readText("description ? "))
                 .docPath(BaseUtils.readText("doc_path ? "))
-                .createdBy(Long.valueOf(BaseUtils.readText("createdBy ? ")))
+                .createdBy(Session.sessionUser.getId())
                 .build();
 
-        System.out.println("projectDTO = " + projectDTO);
+
 
         ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);
         print_response(response);

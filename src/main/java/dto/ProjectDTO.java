@@ -1,6 +1,7 @@
 package dto;
 
 import com.google.gson.annotations.SerializedName;
+import dto.project.ProjectColumnDTO;
 import enums.ProjectStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Id;
