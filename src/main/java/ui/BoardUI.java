@@ -57,7 +57,6 @@ public class BoardUI {
     private void showMyTasks() {
         ResponseEntity<DataDTO<List<TaskDTO>>> response= userService.getTaskList(Session.sessionUser.getId());
         print_response(response);
-
     }
 
     private void showMyProjects() {
