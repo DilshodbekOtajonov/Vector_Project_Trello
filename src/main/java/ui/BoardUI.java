@@ -1,25 +1,23 @@
 package ui;
 
 import config.HibernateConfig;
-import dto.ProjectDTO;
 import dto.auth.Session;
+import dto.project.ProjectCreateDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
+import dto.task.TaskCreateDTO;
 import mappers.ApplicationContextHolder;
 import pdp.uz.baseUtil.BaseUtils;
 import pdp.uz.baseUtil.Colors;
 import services.ProjectService;
+import services.TaskService;
 
 import java.util.Objects;
 
-/**
- * @author "Otajonov Dilshodbek
- * @since 6/17/22 3:54 PM (Friday)
- * VectorGroupProject/IntelliJ IDEA
- */
 public class BoardUI {
 
     ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
+    TaskService taskService = ApplicationContextHolder.getBean(TaskService.class);
 
     public static void main(String[] args) {
         if (Objects.isNull(Session.sessionUser))
@@ -57,8 +55,28 @@ public class BoardUI {
     }
 
     private void addTask() {
+        TaskCreateDTO taskDTO = TaskCreateDTO.builder()
+                .title(BaseUtils.readText("title ? "))
+                .description(BaseUtils.readText("description ? "))
+                //.level(BaseUtils.readText("level ? "))
+                .priority(BaseUtils.readText("priority ? "))
+                .projectColumnId(Long.valueOf(BaseUtils.readText("projectColumnId ? ")))
+                .createdBy(Session.sessionUser.getId()).build();
 
 
+        String option;
+        System.out.print("Choose level(default-MEDIUM): ");
+        option=BaseUtils.readText("\n1.EASY\n2.MEDIUM\n3.HARD\n?: ");
+
+
+        switch (option){
+            case "1" -> taskDTO.setLevel("EASY");
+            case "2" -> taskDTO.setLevel("HARD");
+            default -> taskDTO.setLevel("MEDIUM");
+        }
+
+        ResponseEntity<DataDTO<Long>> response = taskService.addTask(taskDTO);
+        print_response(response);
     }
 
     private void showMyTasks() {
@@ -71,16 +89,16 @@ public class BoardUI {
     }
 
     private void addProject() {
-        ProjectDTO projectDTO = ProjectDTO.builder()
+        ProjectCreateDTO projectCreateDTO = ProjectCreateDTO.builder()
                 .title(BaseUtils.readText("title ? "))
                 .description(BaseUtils.readText("description ? "))
                 .docPath(BaseUtils.readText("doc_path ? "))
-                .createdBy(Long.valueOf(BaseUtils.readText("createdBy ? ")))
+                .createdBy(Session.sessionUser.getId())
                 .build();
 
-        System.out.println("projectDTO = " + projectDTO);
+        System.out.println("projectDTO = " + projectCreateDTO);
 
-        ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);
+        ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectCreateDTO);
         print_response(response);
     }
 

@@ -1,12 +1,14 @@
 package services;
 
 import Dao.ProjectDAO;
-import dto.ProjectDTO;
+import dto.project.ProjectCreateDTO;
+import dto.project.ProjectDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
+import pdp.uz.baseUtil.BaseUtils;
 
 import java.util.Objects;
 
@@ -15,10 +17,11 @@ public class ProjectService {
 
     ProjectDAO projectDAO = ApplicationContextHolder.getBean(ProjectDAO.class);
 
-    public ResponseEntity<DataDTO<Long>> addProject(ProjectDTO projectDTO) {
+    public ResponseEntity<DataDTO<Long>> addProject(ProjectCreateDTO projectCreateDTO) {
         Long addProject = null;
         try {
-            addProject = projectDAO.addProject(projectDTO);
+            String response = BaseUtils.gson.toJson(projectCreateDTO);
+            addProject = projectDAO.addProject(response);
             return new ResponseEntity<>(new DataDTO<>(addProject), 200);
         } catch (DaoException e) {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()

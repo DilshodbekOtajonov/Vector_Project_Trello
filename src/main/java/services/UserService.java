@@ -1,7 +1,7 @@
 package services;
 
 import Dao.ProjectDAO;
-import dto.ProjectDTO;
+import dto.project.ProjectDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;

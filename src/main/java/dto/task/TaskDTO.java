@@ -1,13 +1,7 @@
-package dto;
+package dto.task;
 
 import com.google.gson.annotations.SerializedName;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -26,9 +20,4 @@ public class TaskDTO {
     private Long order;
     @SerializedName("created_by")
     private Long createdBy;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_id")
-    private List<CommentDTO> commentDTOS=new ArrayList<>();
-
 }

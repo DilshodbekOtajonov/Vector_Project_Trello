@@ -1,4 +1,4 @@
-package dto;
+package dto.project;
 
 import com.google.gson.annotations.SerializedName;
 import enums.ProjectStatus;
@@ -26,7 +26,6 @@ public class ProjectDTO {
     private String description;
     @SerializedName("doc_path")
     private String docPath;
-
     private ProjectStatus status;
     @SerializedName("created_by")
     private Long createdBy;

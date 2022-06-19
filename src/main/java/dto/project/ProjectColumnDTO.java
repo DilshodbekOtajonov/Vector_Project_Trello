@@ -1,4 +1,4 @@
-package dto;
+package dto.project;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
