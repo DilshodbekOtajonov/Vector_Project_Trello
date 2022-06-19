@@ -2,6 +2,8 @@ package services;
 
 import Dao.ProjectDAO;
 import dto.ProjectDTO;
+import dto.auth.Session;
+import dto.auth.UserDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
@@ -24,6 +26,7 @@ public class ProjectService {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
                     .friendlyMessage(e.getMessage()).build()), 400);
         }
+
     }
 
     public static ProjectService getInstance() {

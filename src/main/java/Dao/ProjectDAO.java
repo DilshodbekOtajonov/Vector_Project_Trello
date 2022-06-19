@@ -5,7 +5,7 @@ import domains.project.ProjectEntity;
 import dto.ProjectDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
-import pdp.uz.baseUtil.BaseUtils;
+import uz.jl.BaseUtils;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;
@@ -89,5 +89,37 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
             session.getTransaction().commit();
             session.close();
         }
+    }
+    public String getTaskList(Long id) throws DaoException{
+        String result;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{ ? = call task.task_list(?)}"
+                );
+                function.registerOutParameter(1, Types.VARCHAR);
+                function.setLong(2, id);
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getString(1);
+            } catch (SQLException e) {
+
+                throw new DaoException(e.getMessage());
+            }
+            System.out.println(result);
+            return result;
+
+        } catch (Exception e) {
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+
     }
 }
