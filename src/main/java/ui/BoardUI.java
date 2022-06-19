@@ -3,6 +3,7 @@ package ui;
 import config.HibernateConfig;
 import dto.TaskDTO;
 import dto.auth.Session;
+import dto.project.ProjectCreateDTO;
 import dto.project.ProjectDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
@@ -24,18 +25,17 @@ public class BoardUI {
 
     UserService userService = ApplicationContextHolder.getBean(UserService.class);
     ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
-
+    static BoardUI boardUI = new BoardUI();
     public static void main(String[] args) {
         if (Objects.isNull(Session.sessionUser))
             return;
 
-        BoardUI boardUI = new BoardUI();
-        BaseUtils.println("Add project -> 1");
-        BaseUtils.println("Add Task -> 2");
-        BaseUtils.println("show my projects -> 3");
-        BaseUtils.println("Show my tasks -> 4");
-        BaseUtils.println("logout -> 5");
-        BaseUtils.println("Quit -> q");
+            BaseUtils.println("Add project -> 1");
+            BaseUtils.println("Add Task -> 2");
+            BaseUtils.println("show my projects -> 3");
+            BaseUtils.println("Show my tasks -> 4");
+            BaseUtils.println("logout -> 5");
+            BaseUtils.println("Quit -> q");
         String choice = BaseUtils.readText("?:");
         switch (choice) {
 
@@ -60,22 +60,40 @@ public class BoardUI {
     private void showMyTasks() {
         ResponseEntity<DataDTO<List<TaskDTO>>> response = userService.getTaskList(Session.sessionUser.getId());
         print_response(response);
+
+        BaseUtils.println("\n\n"+"Edit task -> 1");
+        BaseUtils.println("go back -> any key");
+        String choice = BaseUtils.readText("?:");
+        switch (choice) {
+
+            case "1" -> boardUI.editTask();
+
+            default -> BaseUtils.println("Main page");
+        }
+    }
+
+    private void editTask() {
+
+
+
+
     }
 
     private void showMyProjects() {
-        ResponseEntity<DataDTO<List<ProjectDTO>>> response = userService.getProjectList(Session.sessionUser.getId());
+        ResponseEntity<DataDTO<List<ProjectCreateDTO>>> response = userService.getProjectList(Session.sessionUser.getId());
         print_response(response);
+
     }
 
     private void addProject() {
-        dto.ProjectDTO projectDTO = dto.ProjectDTO.builder()
+        ProjectCreateDTO projectDTO = ProjectCreateDTO.builder()
                 .title(BaseUtils.readText("title ? "))
                 .description(BaseUtils.readText("description ? "))
                 .docPath(BaseUtils.readText("doc_path ? "))
                 .createdBy(Session.sessionUser.getId())
                 .build();
-
-
+        System.out.println(Session.sessionUser.getId());
+        System.out.println("projectDTO "+projectDTO);
 
         ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);
         print_response(response);

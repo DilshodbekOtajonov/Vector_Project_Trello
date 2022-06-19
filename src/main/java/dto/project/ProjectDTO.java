@@ -1,38 +1,38 @@
 package dto.project;
 
 import com.google.gson.annotations.SerializedName;
+import dto.project.ProjectColumnDTO;
+import enums.ProjectStatus;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.sql.Timestamp;
-
-
-/**
- * @author "Otajonov Dilshodbek
- * @since 6/18/22 3:05 PM (Saturday)
- * VectorGroupProject/IntelliJ IDEA
- */
-
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @ToString
 public class ProjectDTO {
-
+    @Id
     private Long id;
+    @SerializedName("title")
     private String title;
+    @SerializedName("description")
     private String description;
-
     @SerializedName("doc_path")
     private String docPath;
-    private String status;
 
-    @SerializedName("created_at")
-    private Timestamp createdAt;
-
+    private ProjectStatus status;
     @SerializedName("created_by")
     private Long createdBy;
 
-
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id")
+    private List<ProjectColumnDTO> projectColumns = new ArrayList<>();
 }

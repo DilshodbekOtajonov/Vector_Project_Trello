@@ -2,7 +2,8 @@ package Dao;
 
 import config.HibernateConfig;
 import domains.project.ProjectEntity;
-import dto.ProjectDTO;
+import dto.project.ProjectCreateDTO;
+import dto.project.ProjectDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
 import uz.jl.BaseUtils;
@@ -64,7 +65,7 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
 
     }
 
-    public Long addProject(ProjectDTO projectDTO) throws DaoException {
+    public Long addProject(ProjectCreateDTO projectCreateDTO) throws DaoException {
         Long result = null;
         Session session = HibernateConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -73,7 +74,7 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
                 CallableStatement function = connection.prepareCall(
                         "{? = call project.project_create(?)}");
                 function.registerOutParameter(1, Types.BIGINT);
-                function.setString(2, BaseUtils.gson.toJson(projectDTO));
+                function.setString(2, BaseUtils.gson.toJson(projectCreateDTO));
                 function.execute();
                 return function;
             });

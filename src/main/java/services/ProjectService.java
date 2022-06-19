@@ -1,9 +1,8 @@
 package services;
 
 import Dao.ProjectDAO;
-import dto.ProjectDTO;
-import dto.auth.Session;
-import dto.auth.UserDTO;
+import dto.project.ProjectCreateDTO;
+import dto.project.ProjectDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
@@ -17,10 +16,10 @@ public class ProjectService {
 
     ProjectDAO projectDAO = ApplicationContextHolder.getBean(ProjectDAO.class);
 
-    public ResponseEntity<DataDTO<Long>> addProject(ProjectDTO projectDTO) {
+    public ResponseEntity<DataDTO<Long>> addProject(ProjectCreateDTO projectCreateDTO) {
         Long addProject = null;
         try {
-            addProject = projectDAO.addProject(projectDTO);
+            addProject = projectDAO.addProject(projectCreateDTO);
             return new ResponseEntity<>(new DataDTO<>(addProject), 200);
         } catch (DaoException e) {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
