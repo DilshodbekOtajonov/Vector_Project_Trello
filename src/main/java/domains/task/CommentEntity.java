@@ -21,7 +21,7 @@ public class CommentEntity extends Auditable {
     private TaskEntity taskId;
 
     @Builder(builderMethodName = "childBuilder")
-    public CommentEntity(Long id, Timestamp createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, int deleted, String message, TaskEntity taskId) {
+    public CommentEntity(Long id, Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, int deleted, String message, TaskEntity taskId) {
         super(id, createdAt, updatedAt, createdBy, updatedBy, deleted);
         this.message = message;
         this.taskId = taskId;

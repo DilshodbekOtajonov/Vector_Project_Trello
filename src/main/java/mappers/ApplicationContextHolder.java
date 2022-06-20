@@ -2,6 +2,7 @@ package mappers;
 
 import Dao.AuthUserDAO;
 import Dao.ProjectDAO;
+import Dao.TaskDAO;
 import services.ProjectService;
 import services.UserService;
 import services.auth.AuthService;
@@ -20,6 +21,7 @@ public class ApplicationContextHolder {
             case "UserService" -> (T) UserService.getInstance();
             case "ProjectService" -> (T) ProjectService.getInstance();
             case "ProjectDAO" -> (T) ProjectDAO.getInstance();
+            case "TaskDAO" -> (T) TaskDAO.getInstance();
             default -> throw new RuntimeException("Bean not found");
         };
     }
@@ -30,6 +32,7 @@ public class ApplicationContextHolder {
             case "AuthService" -> AuthService.getInstance();
             case "UserService" -> UserService.getInstance();
             case "ProjectDAO" -> ProjectDAO.getInstance();
+            case "TaskDAO" ->  TaskDAO.getInstance();
             default -> throw new RuntimeException("Bean not found");
         };
     }

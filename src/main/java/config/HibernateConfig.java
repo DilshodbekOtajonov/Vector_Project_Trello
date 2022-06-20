@@ -1,5 +1,6 @@
 package config;
 
+import domains.task.TaskEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -50,7 +51,7 @@ public class HibernateConfig {
                 registryBuilder.applySettings(settings);
 
                 registry = registryBuilder.build();
-                MetadataSources sources = new MetadataSources(registry);
+                MetadataSources sources = new MetadataSources(registry).addAnnotatedClass(TaskEntity.class);
                 Metadata metadata = sources.getMetadataBuilder().build();
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
 

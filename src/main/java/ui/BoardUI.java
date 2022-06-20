@@ -1,6 +1,7 @@
 package ui;
 
 import config.HibernateConfig;
+import domains.task.TaskEntity;
 import dto.TaskDTO;
 import dto.auth.Session;
 import dto.project.ProjectCreateDTO;
@@ -66,7 +67,8 @@ public class BoardUI {
 
         if (response.getStatus() == 200) {
             BaseUtils.println("\n\n" + "Edit task -> 1");
-            BaseUtils.println("go back -> any key");
+            BaseUtils.println("task details -> 2");
+            BaseUtils.println("go back -> any other key");
             String choice = BaseUtils.readText("?:");
             switch (choice) {
 
@@ -78,17 +80,21 @@ public class BoardUI {
     }
 
     private void showTaskDetails() {
+        Long taskId = Long.valueOf(BaseUtils.readText("task id ? "));
+        ResponseEntity<DataDTO<TaskDTO>> response = projectService.getTaskInfo(taskId,Session.sessionUser.getId());
 
-
+        print_response(response);
     }
 
     private void editTask() {
+        Long taskId = Long.valueOf(BaseUtils.readText("task id ? "));
+        ResponseEntity<DataDTO<TaskEntity>> response = projectService.getTaskById(taskId);
 
-
+        print_response(response);
     }
 
     private void showMyProjects() {
-        ResponseEntity<DataDTO<List<ProjectCreateDTO>>> response = userService.getProjectList(Session.sessionUser.getId());
+        ResponseEntity<DataDTO<List<ProjectDTO>>> response = userService.getProjectList(Session.sessionUser.getId());
         print_response(response);
 
 

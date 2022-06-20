@@ -1,9 +1,11 @@
 package services;
 
 import Dao.ProjectDAO;
+import Dao.TaskDAO;
 import com.google.gson.reflect.TypeToken;
 import dto.TaskDTO;
 import dto.project.ProjectCreateDTO;
+import dto.project.ProjectDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
@@ -24,6 +26,7 @@ import java.util.Objects;
 public class UserService {
     private static UserService userService;
     ProjectDAO projectDAO = ApplicationContextHolder.getBean(ProjectDAO.class);
+    TaskDAO taskDAO = ApplicationContextHolder.getBean(TaskDAO.class);
 
 
     public static UserService getInstance() {
@@ -32,15 +35,15 @@ public class UserService {
         return userService;
     }
 
-    public ResponseEntity<DataDTO<List<ProjectCreateDTO>>> getProjectList(Long id) {
+    public ResponseEntity<DataDTO<List<ProjectDTO>>> getProjectList(Long id) {
         try {
             String projectList = projectDAO.getProjectList(id);
 
-            Type type = new TypeToken<ArrayList<ProjectCreateDTO>>() {
+            Type type = new TypeToken<ArrayList<ProjectDTO>>() {
             }.getType();
 
 
-            ArrayList<ProjectCreateDTO> result = BaseUtils.gson.fromJson(projectList, type);
+            ArrayList<ProjectDTO> result = BaseUtils.gson.fromJson(projectList, type);
 
             if (result.isEmpty())
                 return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
@@ -58,7 +61,7 @@ public class UserService {
 
     public ResponseEntity<DataDTO<List<TaskDTO>>> getTaskList(Long id) {
         try {
-            String taskList = projectDAO.getTaskList(id);
+            String taskList = taskDAO.getTaskList(id);
             Type type = new TypeToken<ArrayList<TaskDTO>>() {
             }.getType();
 

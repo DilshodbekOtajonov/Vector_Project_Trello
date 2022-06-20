@@ -29,7 +29,7 @@ public class ProjectEntity extends Auditable {
     private List<ProjectColumnEntity> projectColumns;
 
     @Builder(builderMethodName = "childBuilder")
-    public ProjectEntity(Long id, Timestamp createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, int deleted, String title, String description, String docPath, ProjectStatus status, List<ProjectColumnEntity> projectColumns) {
+    public ProjectEntity(Long id, Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, int deleted, String title, String description, String docPath, ProjectStatus status, List<ProjectColumnEntity> projectColumns) {
         super(id, createdAt, updatedAt, createdBy, updatedBy, deleted);
         this.title = title;
         this.description = description;

@@ -16,19 +16,22 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class TaskDTO {
+
     private Long id;
     private String title;
     private String description;
     private String level;
     private String priority;
+
     @SerializedName("project_column_id")
     private Long projectColumnId;
+    @SerializedName("project_id")
+    private Long project_id;
     private Long order;
     @SerializedName("created_by")
     private Long createdBy;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_id")
-    private List<CommentDTO> commentDTOS=new ArrayList<>();
+    @SerializedName("task_comment_list")
+    private List<CommentDTO> commentDTOS = new ArrayList<>();
 
 }

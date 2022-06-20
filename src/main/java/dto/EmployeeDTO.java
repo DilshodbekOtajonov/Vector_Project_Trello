@@ -1,6 +1,7 @@
 package dto;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Builder;
 import lombok.ToString;
 
 /**
@@ -9,6 +10,7 @@ import lombok.ToString;
  * VectorGroupProject/IntelliJ IDEA
  */
 @ToString
+@Builder
 public class EmployeeDTO {
     @SerializedName("user_id")
     private Long userId;

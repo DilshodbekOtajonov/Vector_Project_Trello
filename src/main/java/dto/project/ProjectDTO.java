@@ -32,7 +32,4 @@ public class ProjectDTO {
     @SerializedName("created_by")
     private Long createdBy;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "project_id")
-    private List<ProjectColumnDTO> projectColumns = new ArrayList<>();
 }

@@ -1,5 +1,9 @@
 package domains;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -15,10 +19,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+
 public class Auditable {
+    @Id
     protected Long id;
     protected Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
-    protected LocalDateTime updatedAt;
+    protected Timestamp updatedAt;
     protected Long createdBy;
     protected Long updatedBy;
     protected int deleted;

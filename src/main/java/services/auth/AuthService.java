@@ -1,6 +1,7 @@
 package services.auth;
 
 import Dao.AuthUserDAO;
+import dto.EmployeeDTO;
 import dto.auth.AuthCreateDTO;
 import dto.auth.AuthLoginDTO;
 import dto.auth.Session;
@@ -55,7 +56,15 @@ public class AuthService {
         try {
             String authCreateJson = BaseUtils.gson.toJson(authCreateDTO);
             register = authUserDAO.register(authCreateJson);
-            UserDTO build = UserDTO.builder().id(register).username(authCreateDTO.getUsername()).build();
+            UserDTO build = UserDTO.builder()
+                    .id(register)
+                    .username(authCreateDTO.getUsername())
+                    .employee(EmployeeDTO.builder()
+                            .fullName(authCreateDTO.getEmployeeCreateDTO().getFullName())
+                            .phoneNumber(authCreateDTO.getEmployeeCreateDTO().getPhoneNumber())
+                            .email(authCreateDTO.getEmployeeCreateDTO().getEmail())
+                            .build())
+                    .build();
             Session.setSessionUser(build);
             return new ResponseEntity<>(new DataDTO<>(register), 200);
 

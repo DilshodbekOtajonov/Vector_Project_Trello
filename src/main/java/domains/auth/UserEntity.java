@@ -31,7 +31,7 @@ public final class UserEntity extends Auditable {
     private EmployeeEntity employeeEntity;
 
     @Builder(builderMethodName = "childBuilder")
-    public UserEntity(Long id, Timestamp createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, int deleted, String username, String password, UserStatus status, UserRole role, Language language, EmployeeEntity employeeEntity) {
+    public UserEntity(Long id, Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, int deleted, String username, String password, UserStatus status, UserRole role, Language language, EmployeeEntity employeeEntity) {
         super(id, createdAt, updatedAt, createdBy, updatedBy, deleted);
         this.username = username;
         this.password = password;

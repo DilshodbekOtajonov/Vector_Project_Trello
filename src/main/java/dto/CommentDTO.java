@@ -22,4 +22,6 @@ public class CommentDTO {
     private String message;
     @SerializedName("task_id")
     private Long taskId;
+    @SerializedName("created_by")
+    private Long createdBy;
 }

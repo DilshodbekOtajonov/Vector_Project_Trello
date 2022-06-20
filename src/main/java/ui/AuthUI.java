@@ -86,7 +86,6 @@ public final class AuthUI {
         ResponseEntity<DataDTO<UserDTO>> response = authService.login(authLoginDTO);
         print_response(response);
 
-        System.out.println("userDTo"+response.getData().getBody());
     }
     public static void print_response(ResponseEntity response) {
         String color = response.getStatus() != 200 ? Colors.RED : Colors.GREEN;

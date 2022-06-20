@@ -91,35 +91,5 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
             session.close();
         }
     }
-    public String getTaskList(Long id) throws DaoException{
-        String result;
-        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
 
-        try {
-            CallableStatement callableStatement = session.doReturningWork(connection -> {
-                CallableStatement function = connection.prepareCall(
-                        "{ ? = call task.task_list(?)}"
-                );
-                function.registerOutParameter(1, Types.VARCHAR);
-                function.setLong(2, id);
-                function.execute();
-                return function;
-            });
-            try {
-                result = callableStatement.getString(1);
-            } catch (SQLException e) {
-
-                throw new DaoException(e.getMessage());
-            }
-            return result;
-
-        } catch (Exception e) {
-            throw new DaoException(e.getCause().getLocalizedMessage());
-        } finally {
-            session.getTransaction().commit();
-            session.close();
-        }
-
-    }
 }
