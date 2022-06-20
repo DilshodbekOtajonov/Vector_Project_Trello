@@ -2,8 +2,8 @@ package Dao;
 
 import config.HibernateConfig;
 import domains.project.ProjectEntity;
+import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
-import dto.project.ProjectDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
 import pdp.uz.baseUtil.BaseUtils;
@@ -13,11 +13,6 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Objects;
 
-/**
- * @author "Otajonov Dilshodbek
- * @since 6/17/22 12:00 PM (Friday)
- * VectorGroupProject/IntelliJ IDEA
- */
 public class ProjectDAO extends GenericDAO<ProjectEntity> {
     private static ProjectDAO projectDAO;
 
@@ -65,7 +60,7 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
 
     }
 
-    public Long addProject(String projectCreateDTO) throws DaoException {
+    public Long addProject(ProjectCreateDTO projectCreateDTO) throws DaoException {
         Long result = null;
         Session session = HibernateConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -74,7 +69,7 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
                 CallableStatement function = connection.prepareCall(
                         "{? = call project.project_create(?)}");
                 function.registerOutParameter(1, Types.BIGINT);
-                function.setString(2,projectCreateDTO);
+                function.setString(2, BaseUtils.gson.toJson(projectCreateDTO));
                 function.execute();
                 return function;
             });
@@ -90,5 +85,67 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
             session.getTransaction().commit();
             session.close();
         }
+    }
+
+    public Long addProjectColumn(ProjectColumnDTO projectColumnDTO,Long userId) throws DaoException {
+        Long result = null;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{? = call project.project_column_create(?,?)}");
+                function.registerOutParameter(1, Types.BIGINT);
+                function.setString(2, BaseUtils.gson.toJson(projectColumnDTO));
+                function.setLong(3,userId);
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getLong(1);
+            } catch (SQLException e) {
+                throw new DaoException(e.getMessage());
+            }
+            return result;
+        } catch (Exception e) {
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+    }
+
+    public String getProjectInfo(Long projectId, Long userId) throws DaoException {
+        String result;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{ ? = call project.project_details(?,?)}"
+                );
+                function.registerOutParameter(1, Types.VARCHAR);
+                function.setLong(2, projectId);
+                function.setLong(3, userId);
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getString(1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new DaoException(e.getMessage());
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+        return result;
     }
 }

@@ -1,12 +1,19 @@
 package services;
 
 import Dao.ProjectDAO;
+import Dao.TaskDAO;
+import com.google.gson.reflect.TypeToken;
 import dto.project.ProjectDTO;
+import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
+import dto.task.TaskDTO;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
+import pdp.uz.baseUtil.BaseUtils;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,7 +24,8 @@ import java.util.Objects;
  */
 public class UserService {
     private static UserService userService;
-    ProjectDAO projectDAO= ApplicationContextHolder.getBean(ProjectDAO.class);
+    ProjectDAO projectDAO = ApplicationContextHolder.getBean(ProjectDAO.class);
+    TaskDAO taskDAO = ApplicationContextHolder.getBean(TaskDAO.class);
 
 
     public static UserService getInstance() {
@@ -28,11 +36,46 @@ public class UserService {
 
     public ResponseEntity<DataDTO<List<ProjectDTO>>> getProjectList(Long id) {
         try {
-            System.out.println(projectDAO.getProjectList(id));
+            String projectList = projectDAO.getProjectList(id);
+
+            Type type = new TypeToken<ArrayList<ProjectDTO>>() {
+            }.getType();
+
+
+            ArrayList<ProjectDTO> result = BaseUtils.gson.fromJson(projectList, type);
+
+            if (result.isEmpty())
+                return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                        .friendlyMessage("You do not have any projects")
+                        .build()), 404);
+
+            return new ResponseEntity<>(new DataDTO<>(result), 200);
         } catch (DaoException e) {
-            throw new RuntimeException(e);
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                    .friendlyMessage("Oops something went wrong")
+                    .build()), 500);
         }
 
-        return null;
+    }
+
+    public ResponseEntity<DataDTO<List<TaskDTO>>> getTaskList(Long id) {
+        try {
+            String taskList = taskDAO.getTaskList(id);
+            Type type = new TypeToken<ArrayList<TaskDTO>>() {
+            }.getType();
+
+            ArrayList<TaskDTO> result = BaseUtils.gson.fromJson(taskList, type);
+            if (result.isEmpty())
+                return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                        .friendlyMessage("You do not have any task")
+                        .build()), 404);
+
+            return new ResponseEntity<>(new DataDTO<>(result), 200);
+
+        } catch (DaoException e) {
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                    .friendlyMessage("Oops something went wrong")
+                    .build()), 500);
+        }
     }
 }
