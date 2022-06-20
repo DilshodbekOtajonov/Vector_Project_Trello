@@ -38,7 +38,8 @@ public class BoardUI {
 
         BaseUtils.println("Add project -> 1");
         BaseUtils.println("project window -> 2");
-        BaseUtils.println("logout -> 3");
+        BaseUtils.println("Show my tasks -> 3");
+        BaseUtils.println("logout -> 4");
         BaseUtils.println("Quit -> q");
         String choice = BaseUtils.readText("?:");
         switch (choice) {
@@ -48,7 +49,8 @@ public class BoardUI {
                 Long projectId = Long.valueOf(BaseUtils.readText("project id ? "));
                 ProjectUI.projectWindow(projectId);
             }
-            case "3" -> Session.setSessionUser(null);
+            case "3" -> TaskUI.showMyTasks();
+            case "4" -> Session.setSessionUser(null);
             case "q" -> {
                 BaseUtils.println("Bye");
                 HibernateConfig.shutdown();

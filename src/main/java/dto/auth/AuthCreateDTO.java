@@ -14,6 +14,7 @@ public class AuthCreateDTO {
     @SerializedName("userName")
     private String username;
     private String password;
+    @SerializedName("employee")
     private EmployeeCreateDTO employeeCreateDTO;
     private String language;
 

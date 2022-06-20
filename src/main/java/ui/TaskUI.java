@@ -21,14 +21,14 @@ import java.util.List;
  * VectorGroupProject/IntelliJ IDEA
  */
 public class TaskUI {
-    UserService userService = ApplicationContextHolder.getBean(UserService.class);
+    static UserService userService = ApplicationContextHolder.getBean(UserService.class);
 
-    TaskUI taskUi = new TaskUI();
+   static TaskUI taskUi = new TaskUI();
     TaskService taskService = new TaskService();
-    ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
+    static ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
 
 
-    private void showMyTasks() {
+    public static void showMyTasks() {
         ResponseEntity<DataDTO<List<TaskDTO>>> response = userService.getTaskList(Session.sessionUser.getId());
         print_response(response);
 
@@ -46,20 +46,22 @@ public class TaskUI {
             }
         }
     }
-    private void showTaskDetails() {
+
+    private static void showTaskDetails() {
         Long taskId = Long.valueOf(BaseUtils.readText("task id ? "));
         ResponseEntity<DataDTO<TaskDTO>> response = projectService.getTaskInfo(taskId, Session.sessionUser.getId());
 
         print_response(response);
     }
-    private void editTask() {
+
+    private static void editTask() {
         Long taskId = Long.valueOf(BaseUtils.readText("task id ? "));
         ResponseEntity<DataDTO<TaskEntity>> response = projectService.getTaskById(taskId);
 
         print_response(response);
     }
 
-    public static void print_response(ResponseEntity response) {
+    public static  void print_response(ResponseEntity response) {
         String color = response.getStatus() != 200 ? Colors.RED : Colors.GREEN;
         BaseUtils.println(BaseUtils.gson.toJson(response), color);
     }
