@@ -36,6 +36,7 @@ public class HibernateConfig {
                 settings.put(Environment.DIALECT, Property.getProperty("dialect"));
                 settings.put(Environment.HBM2DDL_AUTO, "update");
                 settings.put(Environment.SHOW_SQL, true);
+                settings.put(Environment.FORMAT_SQL, true);
 
                 // HikariCP settings
 
