@@ -51,9 +51,9 @@
             <version>1.7.36</version>
         </dependency>
         <dependency>
-            <groupId>uz.jl</groupId>
-            <artifactId>my-utils</artifactId>
-            <version>5.0</version>
+            <groupId>pdp.uz</groupId>
+            <artifactId>my_util</artifactId>
+            <version>3.0</version>
         </dependency>
     </dependencies>
 </project>
