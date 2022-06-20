@@ -1,6 +1,7 @@
 package ui;
 
 import config.HibernateConfig;
+import domains.task.TaskCreateDTO;
 import domains.task.TaskEntity;
 import dto.TaskDTO;
 import dto.auth.Session;
@@ -11,12 +12,14 @@ import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import mappers.ApplicationContextHolder;
 import services.ProjectService;
+import services.TaskService;
 import services.UserService;
 import uz.jl.BaseUtils;
 import uz.jl.Colors;
 
 import java.util.List;
 import java.util.Objects;
+
 
 /**
  * @author "Otajonov Dilshodbek
@@ -26,7 +29,8 @@ import java.util.Objects;
 public class BoardUI {
 
     UserService userService = ApplicationContextHolder.getBean(UserService.class);
-    ProjectService  projectService = ApplicationContextHolder.getBean(ProjectService.class);
+    ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
+    TaskService taskService = new TaskService();
     static BoardUI boardUI = new BoardUI();
 
     public static void main(String[] args) {
@@ -59,7 +63,24 @@ public class BoardUI {
     }
 
     private void addTask() {
+        TaskCreateDTO taskDTO = TaskCreateDTO.builder()
+                .title(BaseUtils.readText("title ? "))
+                .description(BaseUtils.readText("description ? "))
+                .priority(BaseUtils.readText("priority ? "))
+                .projectColumnId(Long.valueOf(BaseUtils.readText("projectColumnId ? ")))
+                .createdBy(Session.sessionUser.getId()).build();
+        String option;
+        System.out.print("Choose level(default-MEDIUM): ");
+        option = BaseUtils.readText("\n1.EASY\n2.MEDIUM\n3.HARD\n?: ");
 
+        switch (option) {
+            case "1" -> taskDTO.setLevel("EASY");
+            case "2" -> taskDTO.setLevel("HARD");
+            default -> taskDTO.setLevel("MEDIUM");
+        }
+
+        ResponseEntity<DataDTO<Long>> response = taskService.addTask(taskDTO);
+        print_response(response);
     }
 
     private void showMyTasks() {
@@ -82,7 +103,7 @@ public class BoardUI {
 
     private void showTaskDetails() {
         Long taskId = Long.valueOf(BaseUtils.readText("task id ? "));
-        ResponseEntity<DataDTO<TaskDTO>> response = projectService.getTaskInfo(taskId,Session.sessionUser.getId());
+        ResponseEntity<DataDTO<TaskDTO>> response = projectService.getTaskInfo(taskId, Session.sessionUser.getId());
 
         print_response(response);
     }
@@ -102,12 +123,11 @@ public class BoardUI {
         BaseUtils.println("Go back -> any key");
         String option = BaseUtils.readText("?: ");
 
-        switch (option){
+        switch (option) {
             case "1" -> addProjectColumn();
             case "2" -> editProjectColumn();
             default -> BaseUtils.println("Main page");
         }
-
 
 
     }
@@ -125,7 +145,7 @@ public class BoardUI {
                 .order(Long.valueOf(BaseUtils.readText("insert order ? ")))
                 .build();
         System.out.println(Session.sessionUser.getId());
-        ResponseEntity<DataDTO<Long>> response = projectService.addProjectColumn(projectColumnDTO,Session.sessionUser.getId());
+        ResponseEntity<DataDTO<Long>> response = projectService.addProjectColumn(projectColumnDTO, Session.sessionUser.getId());
         print_response(response);
 
     }
@@ -148,4 +168,5 @@ public class BoardUI {
         String color = response.getStatus() != 200 ? Colors.RED : Colors.GREEN;
         BaseUtils.println(BaseUtils.gson.toJson(response), color);
     }
+
 }
