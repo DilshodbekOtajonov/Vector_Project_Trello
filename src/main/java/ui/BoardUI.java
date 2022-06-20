@@ -26,7 +26,7 @@ import java.util.Objects;
 public class BoardUI {
 
     UserService userService = ApplicationContextHolder.getBean(UserService.class);
-    ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
+    ProjectService  projectService = ApplicationContextHolder.getBean(ProjectService.class);
     static BoardUI boardUI = new BoardUI();
 
     public static void main(String[] args) {

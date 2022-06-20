@@ -1,6 +1,9 @@
 package services;
 
 import Dao.ProjectDAO;
+import Dao.TaskDAO;
+import domains.task.TaskEntity;
+import dto.TaskDTO;
 import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
 import dto.project.ProjectDTO;
@@ -9,11 +12,13 @@ import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
+import uz.jl.BaseUtils;
 
 import java.util.Objects;
 
 public class ProjectService {
     private static ProjectService projectService;
+    TaskDAO taskDAO = ApplicationContextHolder.getBean(TaskDAO.class);
 
     ProjectDAO projectDAO = ApplicationContextHolder.getBean(ProjectDAO.class);
 
@@ -35,16 +40,43 @@ public class ProjectService {
         return projectService;
     }
 
+
     public ResponseEntity<DataDTO<Long>> addProjectColumn(ProjectColumnDTO projectColumnDTO) {
-        Long addProjectColumn=null;
+        Long addProjectColumn = null;
 
-       try {
-           addProjectColumn = projectDAO.addProkectColumn(projectColumnDTO);
-           return new ResponseEntity<>(new DataDTO<>(addProjectColumn),200);
-       }catch (DaoException e){
-           return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
-                   .friendlyMessage(e.getMessage()).build()), 400);
-       }
+        try {
+            addProjectColumn = projectDAO.addProkectColumn(projectColumnDTO);
+            return new ResponseEntity<>(new DataDTO<>(addProjectColumn), 200);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                    .friendlyMessage(e.getMessage()).build()), 400);
+        }
 
+    }
+    public ResponseEntity<DataDTO<TaskEntity>> getTaskById(Long taskId) {
+        try {
+            String taskJson = taskDAO.getTaskById(taskId);
+            TaskEntity taskEntity = BaseUtils.gson.fromJson(taskJson, TaskEntity.class);
+            System.out.println(taskEntity);
+//            return new ResponseEntity<>(new DataDTO<>(taskDAO.getTaskById(taskId)));
+
+        } catch (DaoException e) {
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                    .friendlyMessage(e.getMessage())
+                    .build()),500);
+        }
+        return null;
+    }
+
+    public ResponseEntity<DataDTO<TaskDTO>> getTaskInfo(Long taskId,Long userId) {
+        try {
+            String taskInfoJson = taskDAO.getTaskInfo(taskId,userId);
+            TaskDTO taskDTO = BaseUtils.gson.fromJson(taskInfoJson, TaskDTO.class);
+            return new ResponseEntity<>(new DataDTO<>(taskDTO),200);
+        }catch (DaoException e){
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                    .friendlyMessage(e.getLocalizedMessage())
+                    .build()),500);
+        }
     }
 }

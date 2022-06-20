@@ -123,16 +123,7 @@ public class TaskDAO {
     }
 
 
-//    public static void main(String[] args) {
-//        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
-//
-//        session.beginTransaction();
-//
-//        session.createNativeQuery("select row_to_json(select t.title,t.id from task.task t where t.id=17)", String.class).list();
-//
-//
-//        session.close();
-//    }
+
 }
 
 
