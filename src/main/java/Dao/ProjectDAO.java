@@ -153,4 +153,38 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
         }
         return result;
     }
+
+    public String editProjectColumn(ProjectColumnDTO projectColumnDTO) throws DaoException {
+
+        String result;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{ ? = call project.project_column_update(?)}"
+                );
+                function.registerOutParameter(1, Types.VARCHAR);
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getString(1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new DaoException(e.getMessage());
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+        return result;
+
+    }
 }

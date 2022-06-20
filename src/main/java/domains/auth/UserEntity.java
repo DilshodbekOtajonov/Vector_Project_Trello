@@ -1,5 +1,6 @@
 package domains.auth;
 
+import com.google.gson.annotations.SerializedName;
 import domains.Auditable;
 import enums.Language;
 import enums.UserRole;
@@ -28,6 +29,7 @@ public final class UserEntity extends Auditable {
     private UserStatus status;
     private UserRole role;
     private Language language;
+    @SerializedName("employee")
     private EmployeeEntity employeeEntity;
 
     @Builder(builderMethodName = "childBuilder")
