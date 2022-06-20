@@ -4,7 +4,6 @@ import config.HibernateConfig;
 import domains.project.ProjectEntity;
 import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
-import dto.project.ProjectDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
 import uz.jl.BaseUtils;
@@ -125,16 +124,17 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
 
     }
 
-    public Long addProkectColumn(ProjectColumnDTO projectColumnDTO) throws DaoException {
+    public Long addProjectColumn(ProjectColumnDTO projectColumnDTO,Long userId) throws DaoException {
         Long result = null;
         Session session = HibernateConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         try {
             CallableStatement callableStatement = session.doReturningWork(connection -> {
                 CallableStatement function = connection.prepareCall(
-                        "{? = call project.project_column_create(?)}");
+                        "{? = call project.project_column_create(?,?)}");
                 function.registerOutParameter(1, Types.BIGINT);
                 function.setString(2, BaseUtils.gson.toJson(projectColumnDTO));
+                function.setLong(3,userId);
                 function.execute();
                 return function;
             });

@@ -125,7 +125,7 @@ public class BoardUI {
                 .order(Long.valueOf(BaseUtils.readText("insert order ? ")))
                 .build();
         System.out.println(Session.sessionUser.getId());
-        ResponseEntity<DataDTO<Long>> response = projectService.addProjectColumn(projectColumnDTO);
+        ResponseEntity<DataDTO<Long>> response = projectService.addProjectColumn(projectColumnDTO,Session.sessionUser.getId());
         print_response(response);
 
     }

@@ -6,7 +6,6 @@ import domains.task.TaskEntity;
 import dto.TaskDTO;
 import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
-import dto.project.ProjectDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
@@ -41,11 +40,11 @@ public class ProjectService {
     }
 
 
-    public ResponseEntity<DataDTO<Long>> addProjectColumn(ProjectColumnDTO projectColumnDTO) {
+    public ResponseEntity<DataDTO<Long>> addProjectColumn(ProjectColumnDTO projectColumnDTO,Long userId) {
         Long addProjectColumn = null;
 
         try {
-            addProjectColumn = projectDAO.addProkectColumn(projectColumnDTO);
+            addProjectColumn = projectDAO.addProjectColumn(projectColumnDTO,userId);
             return new ResponseEntity<>(new DataDTO<>(addProjectColumn), 200);
         } catch (DaoException e) {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
