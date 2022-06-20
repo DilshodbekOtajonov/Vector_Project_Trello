@@ -28,27 +28,6 @@ public class TaskUI {
     ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
 
 
-    private void addTask() {
-        TaskCreateDTO taskDTO = TaskCreateDTO.builder()
-                .title(BaseUtils.readText("title ? "))
-                .description(BaseUtils.readText("description ? "))
-                .priority(BaseUtils.readText("priority ? "))
-                .projectColumnId(Long.valueOf(BaseUtils.readText("projectColumnId ? ")))
-                .createdBy(Session.sessionUser.getId()).build();
-        String option;
-        System.out.print("Choose level(default-MEDIUM): ");
-        option = BaseUtils.readText("\n1.EASY\n2.MEDIUM\n3.HARD\n?: ");
-
-        switch (option) {
-            case "1" -> taskDTO.setLevel("EASY");
-            case "2" -> taskDTO.setLevel("HARD");
-            default -> taskDTO.setLevel("MEDIUM");
-        }
-
-        ResponseEntity<DataDTO<Long>> response = taskService.addTask(taskDTO);
-        print_response(response);
-    }
-
     private void showMyTasks() {
         ResponseEntity<DataDTO<List<TaskDTO>>> response = userService.getTaskList(Session.sessionUser.getId());
         print_response(response);

@@ -15,14 +15,14 @@ public class Session {
         sessionUser = new SessionUser(session);
     }
 
-    public static void setSessionProject(ProjectDTO session) {
-        sessionProject = new SessionProject(session);
+    public static void setSessionProject(ProjectDTO projectDTO) {
+        sessionProject =new SessionProject(projectDTO);
     }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    private static class SessionUser {
+    public static class SessionUser {
         private Long id;
         private String username;
 
@@ -35,13 +35,15 @@ public class Session {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    private static class SessionProject {
-        private Long id;
-        private String title;
+    public static class SessionProject {
+        private Long projectId;
+        private String projectTitle;
 
         public SessionProject(ProjectDTO session) {
-            this.id = session.getId();
-            this.title = session.getTitle();
+            this.projectId = session.getId();
+            this.projectTitle = session.getTitle();
         }
     }
 }
+
+

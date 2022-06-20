@@ -26,7 +26,6 @@ public class BoardUI {
 
     static UserService userService = ApplicationContextHolder.getBean(UserService.class);
     ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
-    TaskService taskService = new TaskService();
     static BoardUI boardUI = new BoardUI();
 
     public static void boardWindow() {
@@ -69,7 +68,6 @@ public class BoardUI {
                 .docPath(BaseUtils.readText("doc_path ? "))
                 .createdBy(Session.sessionUser.getId())
                 .build();
-        System.out.println(Session.sessionUser.getId());
         System.out.println("projectDTO " + projectDTO);
 
         ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);
