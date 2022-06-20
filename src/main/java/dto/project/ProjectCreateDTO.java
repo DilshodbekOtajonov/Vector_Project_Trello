@@ -1,39 +1,22 @@
 package dto.project;
 
 import com.google.gson.annotations.SerializedName;
+import enums.ProjectStatus;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.sql.Timestamp;
-
-
-/**
- * @author "Otajonov Dilshodbek
- * @since 6/18/22 3:05 PM (Saturday)
- * VectorGroupProject/IntelliJ IDEA
- */
-
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
 @Builder
+@AllArgsConstructor
+@ToString
 public class ProjectCreateDTO {
-
+    @SerializedName("title")
     private String title;
+    @SerializedName("description")
     private String description;
-
     @SerializedName("doc_path")
     private String docPath;
-    private String status;
-
-    @SerializedName("created_at")
-    private Timestamp createdAt;
-
     @SerializedName("created_by")
     private Long createdBy;
-
-
 }
