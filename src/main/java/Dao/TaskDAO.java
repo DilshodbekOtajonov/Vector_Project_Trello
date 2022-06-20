@@ -1,7 +1,7 @@
 package Dao;
 
 import config.HibernateConfig;
-import dto.task.CommentDTO;
+import dto.task.CommentCreateDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
 import uz.jl.BaseUtils;
@@ -148,16 +148,16 @@ public class TaskDAO {
         }
     }
 
-    public Long addComment(CommentDTO commentCreateDTO) throws DaoException {
+    public Long addComment(String commentCreateJson) throws DaoException {
         Long result = null;
         Session session = HibernateConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         try {
             CallableStatement callableStatement = session.doReturningWork(connection -> {
                 CallableStatement function = connection.prepareCall(
-                        "{? = call project.project_create(?)}");
+                        "{? = call task.comment_create(?)}");
                 function.registerOutParameter(1, Types.BIGINT);
-                function.setString(2, BaseUtils.gson.toJson(commentCreateDTO));
+                function.setString(2, commentCreateJson);
                 function.execute();
                 return function;
             });

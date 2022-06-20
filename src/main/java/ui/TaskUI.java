@@ -1,5 +1,6 @@
 package ui;
 
+import dto.task.CommentCreateDTO;
 import dto.task.TaskDTO;
 import dto.auth.Session;
 import dto.response.DataDTO;
@@ -20,13 +21,14 @@ import java.util.List;
  * VectorGroupProject/IntelliJ IDEA
  */
 public class TaskUI {
-    private static UserService userService = ApplicationContextHolder.getBean(UserService.class);
-    private static final TaskUI taskUI = new TaskUI();
-    private static ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
-    private static TaskService taskService = ApplicationContextHolder.getBean(TaskService.class);
+    private static final UserService userService = ApplicationContextHolder.getBean(UserService.class);
 
+    private static final TaskService taskService = ApplicationContextHolder.getBean(TaskService.class);
+    private static final TaskUI taskUI = new TaskUI();
 
     public static void showMyTasks() {
+
+
         ResponseEntity<DataDTO<List<TaskDTO>>> response = userService.getTaskList(Session.sessionUser.getId());
         print_response(response);
 
@@ -43,11 +45,17 @@ public class TaskUI {
                 default -> BaseUtils.println("Wrong Choice", Colors.RED);
 
             }
-        }
+        } else BoardUI.boardWindow();
+        showMyTasks();
     }
 
     private void addCommentToTask() {
-
+        CommentCreateDTO commentCreateDTO = CommentCreateDTO.builder()
+                .createdBy(Session.sessionUser.getId())
+                .taskId(Long.valueOf(BaseUtils.readText("Task id? ")))
+                .message(BaseUtils.readText("Message? "))
+                .build();
+        taskService.addCommentToTask(commentCreateDTO);
     }
 
 
@@ -78,7 +86,7 @@ public class TaskUI {
                 .taskId(Long.valueOf(BaseUtils.readText("taskId ? ")))
                 .userId(Session.sessionUser.getId()).build();
 
-        ResponseEntity<DataDTO<Boolean>> response = taskService.addTaskMember(taskMemberCreateDTO);
+        ResponseEntity<DataDTO<String>> response = taskService.addTaskMember(taskMemberCreateDTO);
         print_response(response);
     }
 }

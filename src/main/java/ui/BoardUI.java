@@ -26,7 +26,7 @@ public class BoardUI {
     static UserService userService = ApplicationContextHolder.getBean(UserService.class);
     ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
     static BoardUI boardUI = new BoardUI();
-    static TaskUI taskUI = new TaskUI();
+
 
     public static void boardWindow() {
         if (Objects.isNull(Session.sessionUser))
@@ -49,7 +49,7 @@ public class BoardUI {
                 Long projectId = Long.valueOf(BaseUtils.readText("project id ? "));
                 ProjectUI.projectWindow(projectId);
             }
-            case "3" -> taskUI.showMyTasks();
+            case "3" -> TaskUI.showMyTasks();
             case "4" -> Session.setSessionUser(null);
             case "q" -> {
                 BaseUtils.println("Bye");

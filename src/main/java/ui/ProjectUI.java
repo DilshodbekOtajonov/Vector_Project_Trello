@@ -22,7 +22,8 @@ import java.util.Objects;
  */
 public class ProjectUI {
     static UserService userService = ApplicationContextHolder.getBean(UserService.class);
-    TaskService taskService = new TaskService();
+    private static TaskService taskService = ApplicationContextHolder.getBean(TaskService.class);
+    ;
 
     private static ProjectUI projectUI = new ProjectUI();
     private static ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
@@ -60,7 +61,7 @@ public class ProjectUI {
 
             }
 
-        }
+        } else BoardUI.boardWindow();
         projectWindow(projectId);
 
     }

@@ -29,6 +29,6 @@ public class TaskDTO {
     private Long createdBy;
 
     @SerializedName("comments")
-    private List<CommentDTO> commentDTOS = new ArrayList<>();
+    private List<CommentCreateDTO> commentDTOS = new ArrayList<>();
 
 }
