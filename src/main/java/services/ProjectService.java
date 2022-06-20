@@ -4,6 +4,7 @@ import Dao.ProjectDAO;
 import Dao.TaskDAO;
 import domains.task.TaskEntity;
 import dto.TaskDTO;
+import dto.auth.Session;
 import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
 import dto.project.ProjectDTO;
@@ -85,6 +86,7 @@ public class ProjectService {
         try {
             String projectInfoJson = projectDAO.getProjectInfo(projectId, userId);
             ProjectDTO projectDTO = BaseUtils.gson.fromJson(projectInfoJson, ProjectDTO.class);
+            Session.setSessionProject(projectDTO);
             return new ResponseEntity<>(new DataDTO<>(projectDTO),200);
         } catch (DaoException e) {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()

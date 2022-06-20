@@ -42,7 +42,7 @@ public final class AuthUI {
                 }
                 default -> BaseUtils.println("Wrong Choice", Colors.RED);
             }
-        } else BoardUI.main(args);
+        } else BoardUI.boardWindow();
 
 
         main(args);

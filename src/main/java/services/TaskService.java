@@ -1,7 +1,7 @@
 package services;
 
 import Dao.TaskDAO;
-import domains.task.TaskCreateDTO;
+import dto.TaskCreateDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
