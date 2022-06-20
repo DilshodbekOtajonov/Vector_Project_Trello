@@ -20,4 +20,8 @@ public class Property {
     public static String getProperty(String key) {
         return properties.getProperty(key, key);
     }
+
+    public static Properties getInstance() {
+        return properties;
+    }
 }

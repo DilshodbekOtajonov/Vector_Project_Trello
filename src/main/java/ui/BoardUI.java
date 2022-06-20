@@ -120,15 +120,25 @@ public class BoardUI {
         print_response(response);
         BaseUtils.println("Add project column -> 1");
         BaseUtils.println("Edit project column -> 2");
+        BaseUtils.println("Show project details -> 3");
         BaseUtils.println("Go back -> any key");
         String option = BaseUtils.readText("?: ");
 
         switch (option) {
             case "1" -> addProjectColumn();
             case "2" -> editProjectColumn();
+            case "3" -> showProjectDetails();
             default -> BaseUtils.println("Main page");
         }
 
+
+    }
+
+    private void showProjectDetails() {
+        Long projectId = Long.valueOf(BaseUtils.readText("project id ? "));
+        ResponseEntity<DataDTO<ProjectDTO>> response = projectService.getProjectInfo(projectId, Session.sessionUser.getId());
+
+        print_response(response);
 
     }
 

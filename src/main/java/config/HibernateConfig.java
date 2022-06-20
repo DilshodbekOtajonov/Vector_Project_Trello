@@ -27,29 +27,8 @@ public class HibernateConfig {
                 StandardServiceRegistryBuilder registryBuilder =
                         new StandardServiceRegistryBuilder();
 
-                Map<String, Object> settings = new HashMap<>();
-                settings.put(Environment.DRIVER, Property.getProperty("org.postgresql.Driver"));
-                settings.put(Environment.URL, Property.getProperty("jdbc.database.url"));
-                settings.put(Environment.USER, Property.getProperty("jdbc.database.username"));
-                settings.put(Environment.PASS, Property.getProperty("jdbc.database.password"));
-                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, Property.getProperty("context.class"));
-                settings.put(Environment.DIALECT, Property.getProperty("dialect"));
-                settings.put(Environment.HBM2DDL_AUTO, "update");
-                settings.put(Environment.SHOW_SQL, true);
-                settings.put(Environment.FORMAT_SQL, true);
 
-                // HikariCP settings
-
-                // Maximum waiting time for a connection from the pool
-                settings.put("hibernate.hikari.connectionTimeout", "20000");
-                // Minimum number of ideal connections in the pool
-                settings.put("hibernate.hikari.minimumIdle", "10");
-                // Maximum number of actual connection in the pool
-                settings.put("hibernate.hikari.maximumPoolSize", "20");
-                // Maximum time that a connection is allowed to sit ideal in the pool
-                settings.put("hibernate.hikari.idleTimeout", "300000");
-
-                registryBuilder.applySettings(settings);
+                registryBuilder.applySettings(Property.getInstance());
 
                 registry = registryBuilder.build();
                 MetadataSources sources = new MetadataSources(registry).addAnnotatedClass(TaskEntity.class);

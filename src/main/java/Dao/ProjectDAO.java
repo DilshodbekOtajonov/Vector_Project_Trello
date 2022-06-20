@@ -92,38 +92,6 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
         }
     }
 
-    public String getTaskList(Long id) throws DaoException {
-        String result;
-        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-
-        try {
-            CallableStatement callableStatement = session.doReturningWork(connection -> {
-                CallableStatement function = connection.prepareCall(
-                        "{ ? = call task.task_list(?)}"
-                );
-                function.registerOutParameter(1, Types.VARCHAR);
-                function.setLong(2, id);
-                function.execute();
-                return function;
-            });
-            try {
-                result = callableStatement.getString(1);
-            } catch (SQLException e) {
-
-                throw new DaoException(e.getMessage());
-            }
-            return result;
-
-        } catch (Exception e) {
-            throw new DaoException(e.getCause().getLocalizedMessage());
-        } finally {
-            session.getTransaction().commit();
-            session.close();
-        }
-
-    }
-
     public Long addProjectColumn(ProjectColumnDTO projectColumnDTO,Long userId) throws DaoException {
         Long result = null;
         Session session = HibernateConfig.getSessionFactory().getCurrentSession();
@@ -150,5 +118,39 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
             session.getTransaction().commit();
             session.close();
         }
+    }
+
+    public String getProjectInfo(Long projectId, Long userId) throws DaoException {
+        String result;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{ ? = call project.project_details(?,?)}"
+                );
+                function.registerOutParameter(1, Types.VARCHAR);
+                function.setLong(2, projectId);
+                function.setLong(3, userId);
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getString(1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new DaoException(e.getMessage());
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+        return result;
     }
 }

@@ -31,5 +31,6 @@ public class ProjectDTO {
     private ProjectStatus status;
     @SerializedName("created_by")
     private Long createdBy;
-
+    @SerializedName("project_column_list")
+    private List<ProjectColumnDTO> projectColumnDTO;
 }
