@@ -145,6 +145,33 @@ public class TaskDAO {
             session.close();
         }
     }
+
+    public Boolean addTaskMember(String taskMemberDTO) throws DaoException {
+        Boolean result = null;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{? = call task.task_members_create(?)}");
+                function.registerOutParameter(1, Types.BOOLEAN);
+                function.setString(2, taskMemberDTO);
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getBoolean(1);
+            } catch (SQLException e) {
+                throw new DaoException(e.getMessage());
+            }
+            return result;
+        } catch (Exception e) {
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+    }
 }
 
 

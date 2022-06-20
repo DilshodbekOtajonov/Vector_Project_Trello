@@ -1,21 +1,22 @@
 package ui;
 
 import config.HibernateConfig;
-import domains.task.TaskCreateDTO;
 import domains.task.TaskEntity;
-import dto.TaskDTO;
 import dto.auth.Session;
 import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
 import dto.project.ProjectDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
+import dto.task.TaskCreateDTO;
+import dto.task.TaskDTO;
+import dto.task.TaskMemberCreateDTO;
 import mappers.ApplicationContextHolder;
+import pdp.uz.baseUtil.BaseUtils;
+import pdp.uz.baseUtil.Colors;
 import services.ProjectService;
 import services.TaskService;
 import services.UserService;
-import uz.jl.BaseUtils;
-import uz.jl.Colors;
 
 import java.util.List;
 import java.util.Objects;
@@ -90,15 +91,27 @@ public class BoardUI {
         if (response.getStatus() == 200) {
             BaseUtils.println("\n\n" + "Edit task -> 1");
             BaseUtils.println("task details -> 2");
+            BaseUtils.println("Add member to task -> 3");
             BaseUtils.println("go back -> any other key");
             String choice = BaseUtils.readText("?:");
             switch (choice) {
 
                 case "1" -> boardUI.editTask();
                 case "2" -> boardUI.showTaskDetails();
+                case "3" -> boardUI.addMemberToTask();
                 default -> BaseUtils.println("Main page");
             }
         }
+    }
+
+    private void addMemberToTask() {
+        TaskMemberCreateDTO taskMemberCreateDTO = TaskMemberCreateDTO.builder()
+                .email(BaseUtils.readText("email ? "))
+                .taskId(Long.valueOf(BaseUtils.readText("taskId ? ")))
+                .userId(Session.sessionUser.getId()).build();
+
+        ResponseEntity<DataDTO<Boolean>> response = taskService.addTaskMember(taskMemberCreateDTO);
+        print_response(response);
     }
 
     private void showTaskDetails() {

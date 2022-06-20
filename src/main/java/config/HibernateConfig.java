@@ -6,17 +6,8 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Environment;
 import property.Property;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * @author "Otajonov Dilshodbek
- * @since 6/17/22 8:28 AM (Friday)
- * VectorGroupProject/IntelliJ IDEA
- */
 public class HibernateConfig {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;

@@ -3,15 +3,14 @@ package services;
 import Dao.ProjectDAO;
 import Dao.TaskDAO;
 import com.google.gson.reflect.TypeToken;
-import dto.TaskDTO;
-import dto.project.ProjectCreateDTO;
 import dto.project.ProjectDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
+import dto.task.TaskDTO;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
-import uz.jl.BaseUtils;
+import pdp.uz.baseUtil.BaseUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -68,7 +67,7 @@ public class UserService {
             ArrayList<TaskDTO> result = BaseUtils.gson.fromJson(taskList, type);
             if (result.isEmpty())
                 return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
-                        .friendlyMessage("You do not have any taska")
+                        .friendlyMessage("You do not have any task")
                         .build()), 404);
 
             return new ResponseEntity<>(new DataDTO<>(result), 200);

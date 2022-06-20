@@ -6,18 +6,13 @@ import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
-import uz.jl.BaseUtils;
+import pdp.uz.baseUtil.BaseUtils;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Objects;
 
-/**
- * @author "Otajonov Dilshodbek
- * @since 6/17/22 12:00 PM (Friday)
- * VectorGroupProject/IntelliJ IDEA
- */
 public class ProjectDAO extends GenericDAO<ProjectEntity> {
     private static ProjectDAO projectDAO;
 

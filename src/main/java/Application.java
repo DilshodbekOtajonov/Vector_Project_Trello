@@ -1,5 +1,4 @@
 import ui.AuthUI;
-import uz.jl.BaseUtils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -17,7 +16,5 @@ public class Application {
     public static void main(String[] args) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 
         AuthUI.main(args);
-
-
     }
 }

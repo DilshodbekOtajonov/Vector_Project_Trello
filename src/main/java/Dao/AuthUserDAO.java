@@ -1,31 +1,15 @@
 package Dao;
 
 import config.HibernateConfig;
-import dto.auth.AuthCreateDTO;
 import dto.auth.AuthLoginDTO;
 import exceptions.DaoException;
-import jakarta.persistence.ParameterMode;
-import jakarta.persistence.StoredProcedureParameter;
 import org.hibernate.Session;
-import org.hibernate.jdbc.ReturningWork;
-import org.hibernate.procedure.ProcedureCall;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.Query;
-import uz.jl.BaseUtils;
 
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 
-/**
- * @author "Otajonov Dilshodbek
- * @since 6/17/22 12:00 PM (Friday)
- * VectorGroupProject/IntelliJ IDEA
- */
 public class AuthUserDAO {
     private static AuthUserDAO authUserDAO;
 

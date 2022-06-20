@@ -7,18 +7,13 @@ import dto.auth.*;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import mappers.ApplicationContextHolder;
+import pdp.uz.baseUtil.BaseUtils;
+import pdp.uz.baseUtil.Colors;
 import services.auth.AuthService;
-import uz.jl.BaseUtils;
-import uz.jl.Colors;
 
 import java.util.Objects;
 
 
-/**
- * @author "Otajonov Dilshodbek
- * @since 6/16/22 5:29 PM (Thursday)
- * VectorGroupProject/IntelliJ IDEA
- */
 public final class AuthUI {
 
     AuthService authService = ApplicationContextHolder.getBean(AuthService.class);
@@ -51,7 +46,7 @@ public final class AuthUI {
 
     private void register() {
 
-        AuthCreateDTO authCreateDTO = AuthCreateDTO.builder()
+        UserCreateDTO authCreateDTO = UserCreateDTO.builder()
                 .username(BaseUtils.readText("username ?"))
                 .password(BaseUtils.readText("password ? "))
                 .employeeCreateDTO(EmployeeCreateDTO.builder()

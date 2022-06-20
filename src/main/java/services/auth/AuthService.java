@@ -2,16 +2,16 @@ package services.auth;
 
 import Dao.AuthUserDAO;
 import dto.EmployeeDTO;
-import dto.auth.AuthCreateDTO;
+import dto.UserDTO;
+import dto.auth.UserCreateDTO;
 import dto.auth.AuthLoginDTO;
 import dto.auth.Session;
-import dto.UserDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
-import uz.jl.BaseUtils;
+import pdp.uz.baseUtil.BaseUtils;
 
 import java.util.Objects;
 
@@ -51,7 +51,7 @@ public class AuthService {
         return authService;
     }
 
-    public ResponseEntity<DataDTO<Long>>register(AuthCreateDTO authCreateDTO) {
+    public ResponseEntity<DataDTO<Long>>register(UserCreateDTO authCreateDTO) {
         Long register = null;
         try {
             String authCreateJson = BaseUtils.gson.toJson(authCreateDTO);

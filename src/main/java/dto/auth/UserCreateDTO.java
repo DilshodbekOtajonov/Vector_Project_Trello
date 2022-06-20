@@ -9,11 +9,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AuthCreateDTO {
+public class UserCreateDTO {
 
     @SerializedName("userName")
     private String username;
     private String password;
+    @SerializedName("employee")
     private EmployeeCreateDTO employeeCreateDTO;
     private String language;
 

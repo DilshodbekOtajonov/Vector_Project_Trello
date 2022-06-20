@@ -1,9 +1,7 @@
-package dto;
+package dto.task;
 
 import com.google.gson.annotations.SerializedName;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import dto.comment.CommentDTO;
 import lombok.*;
 
 import java.util.ArrayList;
