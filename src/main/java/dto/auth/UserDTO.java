@@ -1,5 +1,6 @@
-package dto;
+package dto.auth;
 
+import dto.auth.EmployeeDTO;
 import lombok.*;
 
 @Getter

@@ -3,12 +3,11 @@ package ui;
 import config.HibernateConfig;
 import dto.auth.Session;
 import dto.project.ProjectCreateDTO;
-import dto.project.ProjectDTO;
+import dto.project.ProjectInfoDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import mappers.ApplicationContextHolder;
 import services.ProjectService;
-import services.TaskService;
 import services.UserService;
 import uz.jl.BaseUtils;
 import uz.jl.Colors;
@@ -27,13 +26,14 @@ public class BoardUI {
     static UserService userService = ApplicationContextHolder.getBean(UserService.class);
     ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
     static BoardUI boardUI = new BoardUI();
+    static TaskUI taskUI = new TaskUI();
 
     public static void boardWindow() {
         if (Objects.isNull(Session.sessionUser))
             return;
         System.out.println("========================Board Window=======================");
 
-        ResponseEntity<DataDTO<List<ProjectDTO>>> response = userService.getProjectList(Session.sessionUser.getId());
+        ResponseEntity<DataDTO<List<ProjectInfoDTO>>> response = userService.getProjectList(Session.sessionUser.getId());
         print_response(response);
 
         BaseUtils.println("Add project -> 1");
@@ -49,7 +49,7 @@ public class BoardUI {
                 Long projectId = Long.valueOf(BaseUtils.readText("project id ? "));
                 ProjectUI.projectWindow(projectId);
             }
-            case "3" -> TaskUI.showMyTasks();
+            case "3" -> taskUI.showMyTasks();
             case "4" -> Session.setSessionUser(null);
             case "q" -> {
                 BaseUtils.println("Bye");
@@ -70,7 +70,6 @@ public class BoardUI {
                 .docPath(BaseUtils.readText("doc_path ? "))
                 .createdBy(Session.sessionUser.getId())
                 .build();
-        System.out.println("projectDTO " + projectDTO);
 
         ResponseEntity<DataDTO<Long>> response = projectService.addProject(projectDTO);
         print_response(response);

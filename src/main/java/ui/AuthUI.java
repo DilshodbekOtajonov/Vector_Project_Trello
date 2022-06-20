@@ -2,7 +2,7 @@ package ui;
 
 import config.HibernateConfig;
 
-import dto.UserDTO;
+import dto.auth.UserDTO;
 import dto.auth.*;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;

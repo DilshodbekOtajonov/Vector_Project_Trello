@@ -1,8 +1,10 @@
 package Dao;
 
 import config.HibernateConfig;
+import dto.task.CommentDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
+import uz.jl.BaseUtils;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;
@@ -134,6 +136,59 @@ public class TaskDAO {
             });
             try {
                 result = callableStatement.getLong(1);
+            } catch (SQLException e) {
+                throw new DaoException(e.getMessage());
+            }
+            return result;
+        } catch (Exception e) {
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+    }
+
+    public Long addComment(CommentDTO commentCreateDTO) throws DaoException {
+        Long result = null;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{? = call project.project_create(?)}");
+                function.registerOutParameter(1, Types.BIGINT);
+                function.setString(2, BaseUtils.gson.toJson(commentCreateDTO));
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getLong(1);
+            } catch (SQLException e) {
+                throw new DaoException(e.getMessage());
+            }
+            return result;
+        } catch (Exception e) {
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+    }
+    public Boolean addTaskMember(String taskMemberDTO) throws DaoException {
+        Boolean result = null;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{? = call task.task_members_create(?)}");
+                function.registerOutParameter(1, Types.BOOLEAN);
+                function.setString(2, taskMemberDTO);
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getBoolean(1);
             } catch (SQLException e) {
                 throw new DaoException(e.getMessage());
             }

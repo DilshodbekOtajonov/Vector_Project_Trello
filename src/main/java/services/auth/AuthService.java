@@ -1,11 +1,11 @@
 package services.auth;
 
 import Dao.AuthUserDAO;
-import dto.EmployeeDTO;
+import dto.auth.EmployeeDTO;
 import dto.auth.AuthCreateDTO;
 import dto.auth.AuthLoginDTO;
 import dto.auth.Session;
-import dto.UserDTO;
+import dto.auth.UserDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;

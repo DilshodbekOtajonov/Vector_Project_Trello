@@ -1,11 +1,10 @@
 package ui;
 
-import domains.task.TaskEntity;
-import dto.TaskCreateDTO;
-import dto.TaskDTO;
+import dto.task.TaskDTO;
 import dto.auth.Session;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
+import dto.task.TaskMemberCreateDTO;
 import mappers.ApplicationContextHolder;
 import services.ProjectService;
 import services.TaskService;
@@ -21,11 +20,10 @@ import java.util.List;
  * VectorGroupProject/IntelliJ IDEA
  */
 public class TaskUI {
-    static UserService userService = ApplicationContextHolder.getBean(UserService.class);
-
-   static TaskUI taskUi = new TaskUI();
-    TaskService taskService = new TaskService();
-    static ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
+    private static UserService userService = ApplicationContextHolder.getBean(UserService.class);
+    private static final TaskUI taskUI = new TaskUI();
+    private static ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
+    private static TaskService taskService = ApplicationContextHolder.getBean(TaskService.class);
 
 
     public static void showMyTasks() {
@@ -35,34 +33,52 @@ public class TaskUI {
         if (response.getStatus() == 200) {
             BaseUtils.println("\n\n" + "Edit task -> 1");
             BaseUtils.println("task details -> 2");
-            BaseUtils.println("Add member to task -> 3");
-            BaseUtils.println("go back -> any other key");
+            BaseUtils.println("go back ->3");
             String choice = BaseUtils.readText("?:");
             switch (choice) {
 
-                case "1" -> taskUi.editTask();
-                case "2" -> taskUi.showTaskDetails();
-                default -> BaseUtils.println("Main page");
+                case "1" -> taskUI.editTask();
+                case "2" -> taskUI.showTaskDetails();
+                case "3" -> BoardUI.boardWindow();
+                default -> BaseUtils.println("Wrong Choice", Colors.RED);
+
             }
         }
     }
 
-    private static void showTaskDetails() {
-        Long taskId = Long.valueOf(BaseUtils.readText("task id ? "));
-        ResponseEntity<DataDTO<TaskDTO>> response = projectService.getTaskInfo(taskId, Session.sessionUser.getId());
+    private void addCommentToTask() {
 
-        print_response(response);
     }
 
-    private static void editTask() {
-        Long taskId = Long.valueOf(BaseUtils.readText("task id ? "));
-        ResponseEntity<DataDTO<TaskEntity>> response = projectService.getTaskById(taskId);
 
-        print_response(response);
+    private void showTaskDetails() {
+
     }
 
-    public static  void print_response(ResponseEntity response) {
+    private void editTask() {
+        BaseUtils.println("Add member to task -> 1 ");
+        BaseUtils.println("Add comment to task -> 2 ");
+
+        String choice = BaseUtils.readText("?:");
+        switch (choice) {
+            case "1" -> addMemberToTask();
+            case "2" -> addCommentToTask();
+            default -> BaseUtils.println("Wrong Choice", Colors.RED);
+        }
+    }
+
+    public static void print_response(ResponseEntity response) {
         String color = response.getStatus() != 200 ? Colors.RED : Colors.GREEN;
         BaseUtils.println(BaseUtils.gson.toJson(response), color);
+    }
+
+    private void addMemberToTask() {
+        TaskMemberCreateDTO taskMemberCreateDTO = TaskMemberCreateDTO.builder()
+                .email(BaseUtils.readText("email ? "))
+                .taskId(Long.valueOf(BaseUtils.readText("taskId ? ")))
+                .userId(Session.sessionUser.getId()).build();
+
+        ResponseEntity<DataDTO<Boolean>> response = taskService.addTaskMember(taskMemberCreateDTO);
+        print_response(response);
     }
 }

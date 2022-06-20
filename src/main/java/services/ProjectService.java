@@ -3,7 +3,7 @@ package services;
 import Dao.ProjectDAO;
 import Dao.TaskDAO;
 import domains.task.TaskEntity;
-import dto.TaskDTO;
+import dto.task.TaskDTO;
 import dto.auth.Session;
 import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;

@@ -1,6 +1,6 @@
 package ui;
 
-import dto.TaskCreateDTO;
+import dto.task.TaskCreateDTO;
 import dto.auth.Session;
 import dto.project.ProjectColumnDTO;
 import dto.project.ProjectDTO;
@@ -31,7 +31,11 @@ public class ProjectUI {
     public static void projectWindow(Long projectId) {
         if (Objects.isNull(Session.sessionUser))
             return;
+
+
         System.out.println("========================Project Window=======================");
+
+
         ResponseEntity<DataDTO<ProjectDTO>> response = projectService.getProjectInfo(projectId, Session.sessionUser.getId());
 
         print_response(response);
@@ -104,6 +108,7 @@ public class ProjectUI {
 
         ResponseEntity<DataDTO<Long>> response = taskService.addTask(taskDTO);
         print_response(response);
+
     }
 
 }

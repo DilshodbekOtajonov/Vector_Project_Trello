@@ -1,7 +1,6 @@
-package dto;
+package dto.task;
 
 import com.google.gson.annotations.SerializedName;
-import domains.task.TaskEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
