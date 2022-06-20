@@ -1,6 +1,7 @@
 package services;
 
 import Dao.ProjectDAO;
+import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
 import dto.project.ProjectDTO;
 import dto.response.AppErrorDTO;
@@ -32,5 +33,18 @@ public class ProjectService {
         if (Objects.isNull(projectService))
             projectService = new ProjectService();
         return projectService;
+    }
+
+    public ResponseEntity<DataDTO<Long>> addProjectColumn(ProjectColumnDTO projectColumnDTO) {
+        Long addProjectColumn=null;
+
+       try {
+           addProjectColumn = projectDAO.addProkectColumn(projectColumnDTO);
+           return new ResponseEntity<>(new DataDTO<>(addProjectColumn),200);
+       }catch (DaoException e){
+           return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                   .friendlyMessage(e.getMessage()).build()), 400);
+       }
+
     }
 }

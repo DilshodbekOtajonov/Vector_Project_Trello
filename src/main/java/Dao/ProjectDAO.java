@@ -2,6 +2,7 @@ package Dao;
 
 import config.HibernateConfig;
 import domains.project.ProjectEntity;
+import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
 import dto.project.ProjectDTO;
 import exceptions.DaoException;
@@ -91,7 +92,8 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
             session.close();
         }
     }
-    public String getTaskList(Long id) throws DaoException{
+
+    public String getTaskList(Long id) throws DaoException {
         String result;
         Session session = HibernateConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -121,5 +123,32 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
             session.close();
         }
 
+    }
+
+    public Long addProkectColumn(ProjectColumnDTO projectColumnDTO) throws DaoException {
+        Long result = null;
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+                CallableStatement function = connection.prepareCall(
+                        "{? = call project.project_column_create(?)}");
+                function.registerOutParameter(1, Types.BIGINT);
+                function.setString(2, BaseUtils.gson.toJson(projectColumnDTO));
+                function.execute();
+                return function;
+            });
+            try {
+                result = callableStatement.getLong(1);
+            } catch (SQLException e) {
+                throw new DaoException(e.getMessage());
+            }
+            return result;
+        } catch (Exception e) {
+            throw new DaoException(e.getCause().getLocalizedMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
     }
 }

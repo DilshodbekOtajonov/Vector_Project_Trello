@@ -3,6 +3,7 @@ package ui;
 import config.HibernateConfig;
 import dto.TaskDTO;
 import dto.auth.Session;
+import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
 import dto.project.ProjectDTO;
 import dto.response.DataDTO;
@@ -90,7 +91,36 @@ public class BoardUI {
     private void showMyProjects() {
         ResponseEntity<DataDTO<List<ProjectCreateDTO>>> response = userService.getProjectList(Session.sessionUser.getId());
         print_response(response);
+        BaseUtils.println("Add project column -> 1");
+        BaseUtils.println("Edit project column -> 2");
+        BaseUtils.println("Go back -> any key");
+        String option = BaseUtils.readText("?: ");
 
+        switch (option){
+            case "1" -> addProjectColumn();
+            case "2" -> editProjectColumn();
+            default -> BaseUtils.println("Main page");
+        }
+
+
+
+    }
+
+    private void editProjectColumn() {
+
+
+    }
+
+    private void addProjectColumn() {
+        ProjectColumnDTO projectColumnDTO = ProjectColumnDTO.builder()
+                .project_id(Long.valueOf(BaseUtils.readText("project_id ? ")))
+                .name(BaseUtils.readText("name of column ? "))
+                .code(BaseUtils.readText("insert code ? "))
+                .order(Long.valueOf(BaseUtils.readText("insert order ? ")))
+                .build();
+        System.out.println(Session.sessionUser.getId());
+        ResponseEntity<DataDTO<Long>> response = projectService.addProjectColumn(projectColumnDTO);
+        print_response(response);
 
     }
 
