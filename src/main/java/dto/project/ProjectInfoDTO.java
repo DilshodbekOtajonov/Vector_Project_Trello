@@ -5,15 +5,13 @@ import enums.ProjectStatus;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
 @ToString
-public class ProjectDTO {
+public class ProjectInfoDTO {
     @Id
     private Long id;
     @SerializedName("title")
@@ -26,6 +24,4 @@ public class ProjectDTO {
     private ProjectStatus status;
     @SerializedName("created_by")
     private Long createdBy;
-    @SerializedName("project_column_list")
-    private List<ProjectColumnDTO> projectColumnDTO;
 }

@@ -139,14 +139,12 @@ public class ProjectDAO extends GenericDAO<ProjectEntity> {
             try {
                 result = callableStatement.getString(1);
             } catch (SQLException e) {
-                e.printStackTrace();
                 throw new DaoException(e.getMessage());
             }
 
 
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new DaoException(e.getCause().getLocalizedMessage());
+            throw new DaoException(e.getMessage());
         } finally {
             session.getTransaction().commit();
             session.close();

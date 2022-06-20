@@ -1,10 +1,7 @@
 package dto.project;
 
 import com.google.gson.annotations.SerializedName;
-import dto.TaskDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import dto.task.TaskDTO;
 import lombok.*;
 
 import java.util.List;

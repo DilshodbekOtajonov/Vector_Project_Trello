@@ -1,4 +1,4 @@
-package dto;
+package dto.task;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
