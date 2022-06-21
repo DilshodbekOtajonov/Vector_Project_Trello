@@ -69,6 +69,15 @@ public class ProjectUI {
 
     private void editProjectColumn() {
 
+        ProjectColumnDTO projectColumnDTO = ProjectColumnDTO.builder()
+                .id(Long.valueOf(BaseUtils.readText("insert project column id ? ")))
+                .project_id(Long.valueOf(BaseUtils.readText("insert project id ? ")))
+                .name(BaseUtils.readText("insert name of project column ? "))
+                .code(BaseUtils.readText("insert code of project column ? "))
+                .build();
+        ResponseEntity response = projectService.editProjectColumn(projectColumnDTO);
+        print_response(response);
+
 
     }
 

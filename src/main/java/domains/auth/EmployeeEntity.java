@@ -1,5 +1,6 @@
 package domains.auth;
 
+import com.google.gson.annotations.SerializedName;
 import jakarta.persistence.Table;
 
 /**
@@ -12,6 +13,7 @@ import jakarta.persistence.Table;
 public class EmployeeEntity {
     private long userId;
     private String fullName;
+    @SerializedName("phone_number")
     private String phoneNumber;
     private String email;
 }

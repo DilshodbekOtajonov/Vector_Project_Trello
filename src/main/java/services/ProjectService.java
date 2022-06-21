@@ -81,4 +81,18 @@ public class ProjectService {
                     .build()), 500);
         }
     }
+
+    public ResponseEntity editProjectColumn(ProjectColumnDTO projectColumnDTO) {
+
+        Long editProjectColumn = null;
+
+        try {
+            editProjectColumn = Long.valueOf(projectDAO.editProjectColumn(projectColumnDTO));
+            return new ResponseEntity<>(new DataDTO<>(editProjectColumn), 200);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                    .friendlyMessage(e.getMessage()).build()), 400);
+        }
+
+    }
 }
