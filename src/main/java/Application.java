@@ -1,12 +1,6 @@
-import dto.auth.Session;
-import ui.AuthUI;
-import uz.jl.BaseUtils;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import ui.AuthUI;
+
 
 /**
  * @author "Otajonov Dilshodbek
@@ -15,12 +9,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Application {
 
-    public static void main(String[] args) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-
+    public static void main(String[] args) {
         AuthUI.main(args);
-
-
-
-
     }
 }

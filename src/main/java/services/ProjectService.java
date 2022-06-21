@@ -57,17 +57,7 @@ public class ProjectService {
 
 
 
-    public ResponseEntity<DataDTO<TaskDTO>> getTaskInfo(Long taskId, Long userId) {
-        try {
-            String taskInfoJson = taskDAO.getTaskInfo(taskId, userId);
-            TaskDTO taskDTO = BaseUtils.gson.fromJson(taskInfoJson, TaskDTO.class);
-            return new ResponseEntity<>(new DataDTO<>(taskDTO), 200);
-        } catch (DaoException e) {
-            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
-                    .friendlyMessage(e.getLocalizedMessage())
-                    .build()), 500);
-        }
-    }
+
 
     public ResponseEntity<DataDTO<ProjectDTO>> getProjectInfo(Long projectId, Long userId) {
         try {

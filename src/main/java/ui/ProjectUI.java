@@ -55,7 +55,7 @@ public class ProjectUI {
                 case "2" -> projectUI.addTask();
                 case "3" -> projectUI.editProjectColumn();
                 case "4" -> BoardUI.boardWindow();
-                case "5" -> Session.setSessionUser(null);
+                case "5" -> Session.sessionUser=null;
 
                 default -> BaseUtils.println("Wrong Choice", Colors.RED);
 

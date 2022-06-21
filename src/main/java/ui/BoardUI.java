@@ -50,7 +50,7 @@ public class BoardUI {
                 ProjectUI.projectWindow(projectId);
             }
             case "3" -> TaskUI.showMyTasks();
-            case "4" -> Session.setSessionUser(null);
+            case "4" -> Session.sessionUser=null;
             case "q" -> {
                 BaseUtils.println("Bye");
                 HibernateConfig.shutdown();
