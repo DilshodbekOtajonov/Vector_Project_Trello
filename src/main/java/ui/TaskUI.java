@@ -5,6 +5,7 @@ import dto.task.TaskDTO;
 import dto.auth.Session;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
+import dto.task.TaskInfoDTO;
 import dto.task.TaskMemberCreateDTO;
 import mappers.ApplicationContextHolder;
 import services.ProjectService;
@@ -27,9 +28,9 @@ public class TaskUI {
     private static final TaskUI taskUI = new TaskUI();
 
     public static void showMyTasks() {
+        System.out.println("===========================Task window================================");
 
-
-        ResponseEntity<DataDTO<List<TaskDTO>>> response = userService.getTaskList(Session.sessionUser.getId());
+        ResponseEntity<DataDTO<List<TaskInfoDTO>>> response = userService.getTaskList(Session.sessionUser.getId());
         print_response(response);
 
         if (response.getStatus() == 200) {
@@ -60,7 +61,9 @@ public class TaskUI {
 
 
     private void showTaskDetails() {
-
+        Long taskId = Long.valueOf(BaseUtils.readText("Task id? "));
+        ResponseEntity<DataDTO<TaskDTO>> response = taskService.getTaskById(taskId, Session.sessionUser.getId());
+        print_response(response);
     }
 
     private void editTask() {

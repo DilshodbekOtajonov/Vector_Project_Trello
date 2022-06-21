@@ -1,11 +1,13 @@
 package services;
 
 import Dao.TaskDAO;
+import domains.task.TaskEntity;
 import dto.task.CommentCreateDTO;
 import dto.task.TaskCreateDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
+import dto.task.TaskDTO;
 import dto.task.TaskMemberCreateDTO;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
@@ -32,7 +34,7 @@ public class TaskService {
             return new ResponseEntity<>(new DataDTO<>(addTask), 200);
         } catch (DaoException e) {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
-                    .friendlyMessage(e.getMessage()).build()), 400);
+                    .friendlyMessage(e.getMessage()).build()), 500);
         }
     }
 
@@ -66,5 +68,18 @@ public class TaskService {
                     .friendlyMessage(e.getLocalizedMessage())
                     .build()), 500);
         }
+    }
+
+    public ResponseEntity<DataDTO<TaskDTO>> getTaskById(Long taskId, Long userId) {
+        try {
+            String taskJson = taskDAO.getTaskInfo(taskId, userId);
+            TaskDTO taskDTO = BaseUtils.gson.fromJson(taskJson, TaskDTO.class);
+            return new ResponseEntity<>(new DataDTO<>(taskDTO),200);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
+                    .friendlyMessage(e.getMessage())
+                    .build()), 500);
+        }
+
     }
 }

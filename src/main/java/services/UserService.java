@@ -8,6 +8,7 @@ import dto.project.ProjectInfoDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
+import dto.task.TaskInfoDTO;
 import exceptions.DaoException;
 import mappers.ApplicationContextHolder;
 import uz.jl.BaseUtils;
@@ -58,13 +59,13 @@ public class UserService {
 
     }
 
-    public ResponseEntity<DataDTO<List<TaskDTO>>> getTaskList(Long id) {
+    public ResponseEntity<DataDTO<List<TaskInfoDTO>>> getTaskList(Long id) {
         try {
             String taskList = taskDAO.getTaskList(id);
-            Type type = new TypeToken<ArrayList<TaskDTO>>() {
+            Type type = new TypeToken<ArrayList<TaskInfoDTO>>() {
             }.getType();
 
-            ArrayList<TaskDTO> result = BaseUtils.gson.fromJson(taskList, type);
+            ArrayList<TaskInfoDTO> result = BaseUtils.gson.fromJson(taskList, type);
             if (result.isEmpty())
                 return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
                         .friendlyMessage("You do not have any tasks")

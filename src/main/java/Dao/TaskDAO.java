@@ -55,37 +55,7 @@ public class TaskDAO {
 
     }
 
-    public String getTaskById(Long taskId) throws DaoException {
-        String result;
-        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
 
-        try {
-            CallableStatement callableStatement = session.doReturningWork(connection -> {
-                CallableStatement function = connection.prepareCall(
-                        "{ ? = call task.get_task_by_id(?)}"
-                );
-                function.registerOutParameter(1, Types.VARCHAR);
-                function.setLong(2, taskId);
-                function.execute();
-                return function;
-            });
-            try {
-                result = callableStatement.getString(1);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new DaoException(e.getMessage());
-            }
-
-
-        } catch (Exception e) {
-            throw new DaoException(e.getCause().getLocalizedMessage());
-        } finally {
-            session.getTransaction().commit();
-            session.close();
-        }
-        return result;
-    }
 
 
     public String getTaskInfo(Long taskId, Long userId) throws DaoException {

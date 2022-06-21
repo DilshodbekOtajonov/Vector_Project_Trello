@@ -50,25 +50,12 @@ public class ProjectService {
             return new ResponseEntity<>(new DataDTO<>(addProjectColumn), 200);
         } catch (DaoException e) {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
-                    .friendlyMessage(e.getMessage()).build()), 400);
+                    .friendlyMessage(e.getMessage()).build()), 500);
         }
 
     }
 
-    public ResponseEntity<DataDTO<TaskEntity>> getTaskById(Long taskId) {
-        try {
-            String taskJson = taskDAO.getTaskById(taskId);
-            TaskEntity taskEntity = BaseUtils.gson.fromJson(taskJson, TaskEntity.class);
-            System.out.println(taskEntity);
-//            return new ResponseEntity<>(new DataDTO<>(taskDAO.getTaskById(taskId)));
 
-        } catch (DaoException e) {
-            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
-                    .friendlyMessage(e.getMessage())
-                    .build()), 500);
-        }
-        return null;
-    }
 
     public ResponseEntity<DataDTO<TaskDTO>> getTaskInfo(Long taskId, Long userId) {
         try {
