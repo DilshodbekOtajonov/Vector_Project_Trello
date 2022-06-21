@@ -3,8 +3,6 @@ package dto.task;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter

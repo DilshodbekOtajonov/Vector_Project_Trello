@@ -6,7 +6,7 @@ import dto.project.ProjectCreateDTO;
 import dto.project.ProjectInfoDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
-import mappers.ApplicationContextHolder;
+import config.ApplicationContextHolder;
 import services.ProjectService;
 import services.UserService;
 import uz.jl.BaseUtils;

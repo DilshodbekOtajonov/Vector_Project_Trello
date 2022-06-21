@@ -6,7 +6,7 @@ import dto.auth.UserDTO;
 import dto.auth.*;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
-import mappers.ApplicationContextHolder;
+import config.ApplicationContextHolder;
 import services.auth.AuthService;
 import uz.jl.BaseUtils;
 import uz.jl.Colors;

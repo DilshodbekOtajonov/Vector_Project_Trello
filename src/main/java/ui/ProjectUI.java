@@ -6,7 +6,7 @@ import dto.project.ProjectColumnDTO;
 import dto.project.ProjectDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
-import mappers.ApplicationContextHolder;
+import config.ApplicationContextHolder;
 import services.ProjectService;
 import services.TaskService;
 import services.UserService;

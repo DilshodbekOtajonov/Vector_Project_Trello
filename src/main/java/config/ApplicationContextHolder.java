@@ -1,4 +1,4 @@
-package mappers;
+package config;
 
 import Dao.AuthUserDAO;
 import Dao.ProjectDAO;
@@ -15,6 +15,7 @@ import services.auth.AuthService;
  */
 public class ApplicationContextHolder {
 
+    @SuppressWarnings("unchecked")
     public static <T> T getBean(Class<T> clazz) {
         return switch (clazz.getSimpleName()) {
             case "AuthUserDAO" -> (T) AuthUserDAO.getInstance();
@@ -34,7 +35,7 @@ public class ApplicationContextHolder {
             case "AuthService" -> AuthService.getInstance();
             case "UserService" -> UserService.getInstance();
             case "ProjectDAO" -> ProjectDAO.getInstance();
-            case "TaskDAO" ->  TaskDAO.getInstance();
+            case "TaskDAO" -> TaskDAO.getInstance();
             default -> throw new RuntimeException("Bean not found");
         };
     }

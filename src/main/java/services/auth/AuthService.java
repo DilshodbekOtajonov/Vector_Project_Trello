@@ -10,7 +10,7 @@ import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
-import mappers.ApplicationContextHolder;
+import config.ApplicationContextHolder;
 import uz.jl.BaseUtils;
 
 import java.util.Objects;

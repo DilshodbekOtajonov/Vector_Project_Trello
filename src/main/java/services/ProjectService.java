@@ -2,8 +2,6 @@ package services;
 
 import Dao.ProjectDAO;
 import Dao.TaskDAO;
-import domains.task.TaskEntity;
-import dto.task.TaskDTO;
 import dto.auth.Session;
 import dto.project.ProjectColumnDTO;
 import dto.project.ProjectCreateDTO;
@@ -12,7 +10,7 @@ import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import exceptions.DaoException;
-import mappers.ApplicationContextHolder;
+import config.ApplicationContextHolder;
 import uz.jl.BaseUtils;
 
 import java.util.Objects;

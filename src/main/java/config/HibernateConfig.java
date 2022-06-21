@@ -27,7 +27,6 @@ public class HibernateConfig {
                 StandardServiceRegistryBuilder registryBuilder =
                         new StandardServiceRegistryBuilder();
 
-
                 registryBuilder.applySettings(Property.getInstance());
 
                 registry = registryBuilder.build();

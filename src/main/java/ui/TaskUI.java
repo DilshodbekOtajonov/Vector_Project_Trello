@@ -1,5 +1,6 @@
 package ui;
 
+import dto.project.ProjectDTO;
 import dto.task.CommentCreateDTO;
 import dto.task.TaskDTO;
 import dto.auth.Session;
@@ -7,7 +8,8 @@ import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import dto.task.TaskInfoDTO;
 import dto.task.TaskMemberCreateDTO;
-import mappers.ApplicationContextHolder;
+import config.ApplicationContextHolder;
+import services.ProjectService;
 import services.TaskService;
 import services.UserService;
 import uz.jl.BaseUtils;
@@ -24,6 +26,7 @@ public class TaskUI {
     private static final UserService userService = ApplicationContextHolder.getBean(UserService.class);
 
     private static final TaskService taskService = ApplicationContextHolder.getBean(TaskService.class);
+    private static final ProjectService projectService = ApplicationContextHolder.getBean(ProjectService.class);
     private static final TaskUI taskUI = new TaskUI();
 
     public static void showMyTasks() {
@@ -68,13 +71,36 @@ public class TaskUI {
     private void editTask() {
         BaseUtils.println("Add member to task -> 1 ");
         BaseUtils.println("Add comment to task -> 2 ");
+        BaseUtils.println("Change task column -> 3 ");
 
         String choice = BaseUtils.readText("?:");
         switch (choice) {
             case "1" -> addMemberToTask();
             case "2" -> addCommentToTask();
+            case "3" -> changeTaskColumn();
             default -> BaseUtils.println("Wrong Choice", Colors.RED);
         }
+    }
+
+    private void changeTaskColumn() {
+        Long taskId = Long.valueOf(BaseUtils.readText("taskId ? "));
+        ResponseEntity<DataDTO<TaskDTO>> response = taskService.getTaskById(taskId, Session.sessionUser.getId());
+        if (response.getStatus() != 200) {
+            print_response(response);
+            return;
+        }
+
+        TaskDTO task = response.getData().getBody();
+        Long project_id = task.getProject_id();
+        ResponseEntity<DataDTO<ProjectDTO>> projectResponse = projectService.getProjectInfo(project_id, Session.sessionUser.getId());
+        print_response(projectResponse);
+
+
+        Long projectColumnId = Long.valueOf(BaseUtils.readText("project Column Id ? "));
+
+        task.setProjectColumnId(projectColumnId);
+
+        taskService.updateTask(task, Session.sessionUser.getId());
     }
 
     public static void print_response(ResponseEntity response) {
@@ -84,8 +110,8 @@ public class TaskUI {
 
     private void addMemberToTask() {
         TaskMemberCreateDTO taskMemberCreateDTO = TaskMemberCreateDTO.builder()
-                .email(BaseUtils.readText("email ? "))
                 .taskId(Long.valueOf(BaseUtils.readText("taskId ? ")))
+                .email(BaseUtils.readText("email ? "))
                 .userId(Session.sessionUser.getId()).build();
 
         ResponseEntity<DataDTO<String>> response = taskService.addTaskMember(taskMemberCreateDTO);

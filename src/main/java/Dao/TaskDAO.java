@@ -2,6 +2,7 @@ package Dao;
 
 import config.HibernateConfig;
 import dto.task.CommentCreateDTO;
+import dto.task.TaskDTO;
 import exceptions.DaoException;
 import org.hibernate.Session;
 import uz.jl.BaseUtils;
@@ -54,8 +55,6 @@ public class TaskDAO {
         }
 
     }
-
-
 
 
     public String getTaskInfo(Long taskId, Long userId) throws DaoException {
@@ -144,6 +143,7 @@ public class TaskDAO {
             session.close();
         }
     }
+
     public Boolean addTaskMember(String taskMemberDTO) throws DaoException {
         Boolean result = null;
         Session session = HibernateConfig.getSessionFactory().getCurrentSession();
@@ -164,12 +164,41 @@ public class TaskDAO {
             }
             return result;
         } catch (Exception e) {
+            throw new DaoException(e.getMessage());
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+    }
+
+    public void updateTask(TaskDTO taskDTO, Long userId) throws DaoException {
+
+        Session session = HibernateConfig.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            CallableStatement callableStatement = session.doReturningWork(connection -> {
+
+                CallableStatement function = connection.prepareCall(
+                        "{? = call task.task_update(?,?)}");
+                function.registerOutParameter(1, Types.BOOLEAN);
+                function.setString(2, BaseUtils.gson.toJson(taskDTO));
+                function.setLong(3, userId);
+                function.execute();
+                return function;
+            });
+            try {
+                callableStatement.getLong(1);
+            } catch (Exception e) {
+                throw new DaoException(e.getMessage());
+            }
+        } catch (Exception e) {
             throw new DaoException(e.getCause().getLocalizedMessage());
         } finally {
             session.getTransaction().commit();
             session.close();
         }
     }
+
 }
 
 

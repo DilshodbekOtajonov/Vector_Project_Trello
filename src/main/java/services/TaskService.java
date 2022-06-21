@@ -1,7 +1,6 @@
 package services;
 
 import Dao.TaskDAO;
-import domains.task.TaskEntity;
 import dto.task.CommentCreateDTO;
 import dto.task.TaskCreateDTO;
 import dto.response.AppErrorDTO;
@@ -10,8 +9,7 @@ import dto.response.ResponseEntity;
 import dto.task.TaskDTO;
 import dto.task.TaskMemberCreateDTO;
 import exceptions.DaoException;
-import mappers.ApplicationContextHolder;
-import ui.BoardUI;
+import config.ApplicationContextHolder;
 import uz.jl.BaseUtils;
 
 import java.util.Objects;
@@ -79,6 +77,16 @@ public class TaskService {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder()
                     .friendlyMessage(e.getMessage())
                     .build()), 500);
+        }
+
+    }
+
+    public void updateTask(TaskDTO task, Long userId) {
+
+        try {
+            taskDAO.updateTask(task,userId);
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
         }
 
     }

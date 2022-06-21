@@ -3,14 +3,13 @@ package services;
 import Dao.ProjectDAO;
 import Dao.TaskDAO;
 import com.google.gson.reflect.TypeToken;
-import dto.task.TaskDTO;
 import dto.project.ProjectInfoDTO;
 import dto.response.AppErrorDTO;
 import dto.response.DataDTO;
 import dto.response.ResponseEntity;
 import dto.task.TaskInfoDTO;
 import exceptions.DaoException;
-import mappers.ApplicationContextHolder;
+import config.ApplicationContextHolder;
 import uz.jl.BaseUtils;
 
 import java.lang.reflect.Type;
